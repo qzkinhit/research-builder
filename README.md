@@ -1,8 +1,12 @@
 # research-builder
 
-research-builder 是一套给 Claude Code 与 Codex 用的科研与论文写作 skill。你负责调研相关论文，它把调研结果做成能跑的系统、忠实复现的 baseline、严谨的实验和回填好的中英文论文，并按你已发表论文的风格写作、排实验表、画实验图与系统图、写本子与 rebuttal、去 AI 腔润色。规则来自数据质量与数据准备方向多篇顶会和汇刊论文的实战，适用于任何「提出方法，用理论与实验证明它更好」的实证型研究。
+research-builder 是一套给 Claude Code 与 Codex 用的科研辅助 skill。它把一位研究者在数据质量与数据准备方向写顶会与汇刊论文时形成的五阶段工作流程、写作纪律和检查工具整理成规则，让 AI 在研究者的主导下承担其中的工程实现、实验记录、排版、润色和核查。
 
-*English summary.* research-builder is a Claude Code and Codex skill set for empirical research papers. It turns your surveyed related work into a runnable system, faithfully reproduced baselines, multi-seed experiments and a bilingual (English and Chinese) LaTeX paper whose numbers are filled in by a backfill script from the experiment records. It ships a writing manual with 32 AI-writing patterns adapted from [humanizer](https://github.com/blader/humanizer) for academic prose, checkers for LaTeX, Word and PowerPoint, a matplotlib module for print-size experiment figures, LaTeX table macros, a bilingual paper skeleton, rebuttal and grant-proposal guides, and an editable-PPT figure skill with a starter SVG icon set. The documents are written in Chinese.
+研究由你主导。选题、文献调研与精读、核心想法、baseline 的取舍、方法改动和论文里的每一个论断，都由你提出或确认。skill 按五个阶段推进，每个阶段结束时交出可核验的产物，等你确认后再进入下一阶段。所有数字只来自真实的实验记录，它不会也不应该替你编造结果。
+
+它适用于「提出方法，用理论与实验证明它更好」的实证型研究。你放进来的素材越多(你读过的文献、你的论文、你的图表与文字)，它的产出越贴近你的研究与风格。
+
+*English summary.* research-builder is a Claude Code and Codex skill set that assists a researcher through a five-stage workflow for empirical papers. The researcher chooses the topic, reads the literature, proposes the idea and approves every stage. The skill helps turn the researcher's surveyed related work into a runnable system, faithfully reproduced baselines, multi-seed experiments and a bilingual (English and Chinese) LaTeX paper whose numbers are filled in by a backfill script from the experiment records. It ships a writing manual with 32 AI-writing patterns adapted from [humanizer](https://github.com/blader/humanizer) for academic prose, checkers for LaTeX, Word and PowerPoint, a matplotlib module for print-size experiment figures, LaTeX table macros, a bilingual paper skeleton, rebuttal and grant-proposal guides, and an editable-PPT figure skill with a starter SVG icon set. The documents are written in Chinese.
 
 ## 能做什么
 
@@ -26,18 +30,39 @@ bash ~/.claude/skills/research-builder/install.sh
 python3 -m venv ~/.venvs/rb && ~/.venvs/rb/bin/pip install -r ~/.claude/skills/research-builder/tools/requirements.txt
 ```
 
-**第二步，放你自己的素材(可选，但强烈建议)。** 把你已发表论文的 LaTeX 源放进 `materials/domain/`，本子放进 `materials/general/`，最像你的文字放进 `materials/writing-samples/`。skill 会照着它们的结构、术语和声音写。这些文件默认不进 git，详见 [materials/README.md](materials/README.md)。
+**第二步，放你调研并读过的文献(必需)。** 把相关工作的 LaTeX 源或 PDF 放进 `researched_papers/`，并在 `researched_papers/notes.md` 写下你对每篇的判断，比如能否当 baseline、借鉴哪一点、要超越哪一点。`paper-survey` 可以帮你检索和下载候选论文，但读哪些、信哪些、选谁当 baseline 由你决定。
 
-**第三步，放调研论文。** 把相关工作放进 `researched_papers/`，或者说「按 paper-survey 调研这个选题的 baseline」。
+**第三步，放你自己的素材(强烈建议)。** skill 写出来像不像你，取决于这一步。
 
-**第四步，一句话启动。** 在 Claude Code 里说「按 research-builder 启动」，并告诉它代码仓库与论文目录在哪、实验在哪台服务器上跑、投哪个会议或期刊。
+| 放什么 | 放哪 | 作用 |
+|---|---|---|
+| 你已发表或定稿的论文，最好是 LaTeX 源 | `materials/domain/` | 术语、记号、立场、结构与句式的模仿对象 |
+| 你的本子、项目申请书 | `materials/general/` | 本子的句式与论证逻辑 |
+| 最能代表你行文声音的中英文文字 | `materials/writing-samples/` | 去 AI 腔改写时的声音样本 |
+| 你满意的系统图、动机图、实验图与表 | `materials/figures/` | 画新图时沿用的结构、配色与版式 |
+| 你的图标库与汇报 PPT | `materials/icons/`、`materials/ppt/` | 学术插图与汇报的素材 |
+
+这些文件默认不进 git，只留在你的电脑上，详见 [materials/README.md](materials/README.md)。不放素材时，skill 只能按 `knowledge/` 的通用骨架写，产出会比较平。
+
+**第四步，从对齐阶段开始。** 在 Claude Code 里说「按 research-builder 的五阶段，从对齐开始」，告诉它你的研究方向与核心想法、代码仓库与论文目录、实验服务器、投稿目标。它先读完你的文献与素材，交出概念表、锁定术语表和每篇文献的借鉴点与超越点，等你确认后再进入下一阶段。
+
+## 五个阶段与你的角色
+
+| 阶段 | skill 做什么 | 你做什么 |
+|---|---|---|
+| 0 对齐 | 读你的文献与素材，整理概念表、术语表、借鉴点与超越点 | 给出研究方向与核心想法，确认术语和 baseline 名单 |
+| 1 搭系统 | 按你的方法设计写纯方法包与应用层薄壳，跑通最小流程 | 审阅方法实现是否符合你的设计 |
+| 2 忠实 baseline | 按原论文复现 baseline，做三层忠实度认证并留记录 | 核对复现是否公平，决定哪些进对照表 |
+| 3 实验 | 在你的服务器上跑公认数据集、等预算、多种子的实验并记录 | 决定数据集与实验设置，检查日志 |
+| 4 诊断与改方法 | 按排查清单查原因，把改进做成可对比的变体 | 判断改动是否合理，决定留哪个方法 |
+| 5 回填论文 | 用回填脚本把实验记录写进中英文稿件，按你的风格排版与润色，做投稿前核查 | 写或改定核心论述，逐段审稿，对每个论断负责 |
 
 ## 常用说法
 
 | 想做的事 | 对 Claude 说 | 你会得到 |
 |---|---|---|
-| 从零做一篇论文 | 「按 research-builder 启动」 | 可运行的代码仓库、实验记录、中英文两稿和给导师的内部报告 |
-| 把半成品论文做完 | 「按 research-builder 改进我这篇论文，位置在某某，做到只剩大规模实验」 | 除大规模实验外全部完成的论文与系统，外加服务器交接文档 |
+| 按五阶段推进自己的课题 | 「我的调研文献在 researched_papers，研究方向是某某，按 research-builder 的五阶段从对齐开始」 | 每个阶段的产物与检查点(概念表、系统骨架、baseline 忠实度记录、实验记录、诊断报告、回填稿件)，每阶段结束等你确认 |
+| 按五阶段推进已有的稿件 | 「按 research-builder 的五阶段推进我这篇论文，位置在某某，先从对齐阶段读稿」 | 稿件的待办清单，逐阶段补齐的系统、baseline 与小规模实验，需要大规模算力时的交接文档 |
 | 调研相关工作 | 「按 paper-survey 调研这个选题的 baseline」 | 下载好的论文源文件和一份 `survey.md` |
 | 复现 baseline | 「忠实复现 researched_papers 里这几个方法，在同一协议下跟我的方法比」 | 每个 baseline 的实现、冒烟测试和忠实度记录 |
 | 结果不好时排查 | 「诊断一下为什么输给某 baseline」 | 按 `diagnostic-playbook.md` 查出的原因和修改后的重跑结果 |

@@ -102,7 +102,7 @@ rsync -a --delete "${COMMON_EXCLUDES[@]}" \
 rsync -a --delete "${COMMON_EXCLUDES[@]}" "$REPO/paper-survey/" "$PS/"
 chmod +x "$PS/tools/"*.sh 2>/dev/null || true
 
-RB_DESC='把调研好的相关论文、研究方向和用户自己的素材做成能跑的研究系统、忠实复现的 baseline、严谨的实验和回填好的中英文论文，并按用户已发表论文的风格写作、排实验表、画实验图、写本子与 rebuttal、去 AI 腔润色 Word 与 PPT、做投稿前检查。用户说「按 research-builder 启动」「改进我这篇论文」「复现这些 baseline」「回填实验章、排主表、画实验图」「润色、去 AI 味、投稿前检查」「写本子」「写 rebuttal」时使用。'
+RB_DESC='在研究者主导下，按对齐、搭系统、忠实 baseline、实验、诊断改方法、回填论文的五阶段，把研究者调研并读过的文献、研究方向和自己的素材推进成能跑的系统、忠实复现的 baseline、严谨的实验和中英文论文，并按研究者已发表论文的风格写作、排实验表、画实验图、写本子与 rebuttal、去 AI 腔润色、做投稿前检查。每阶段结束等研究者确认。用户说「按 research-builder 的五阶段」「推进我这篇论文」「复现这些 baseline」「回填实验章、排主表、画实验图」「润色、去 AI 味、投稿前检查」「写本子」「写 rebuttal」时使用。'
 PS_DESC='LaTeX/HTML 优先的论文调研工作流。Use when the user wants to survey a research topic, find baselines and related work, prioritize arXiv source or ar5iv HTML over PDF, screen papers by CCF-A authority and open-source availability, download papers into researched_papers, produce survey.md, or continue into research-builder for writing.'
 NOTE_RB='> **Codex 版说明**：本目录由 research-builder 仓库的 `codex/sync_codex_skills.sh` 生成，不要在这里手改。Codex 没有 Claude Code 的 subagent 与 Workflow，文中「派给 subagent」「并行派出」的步骤改为按顺序执行，或开多个 codex 会话手动并行。素材、手册与脚本路径都相对本目录，即 `~/.codex/skills/research-builder/`。'
 NOTE_PS='> **Codex 版说明**：本目录由 research-builder 仓库的 `codex/sync_codex_skills.sh` 生成，不要在这里手改。Codex 没有子进程，「多子进程并行」的检索改为按顺序执行，或开多个 codex 会话手动并行。下载脚本在本目录的 `tools/fetch_arxiv.sh`。'
