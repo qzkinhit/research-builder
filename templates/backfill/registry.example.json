@@ -1,0 +1,21 @@
+{
+  "numbers": [
+    {"name": "datasets", "value": 3},
+    {"name": "families", "value": 2},
+    {"name": "baselines", "source": "demo_results/summary.json", "key": "n_baselines"},
+    {"name": "recall ours", "source": "demo_results/summary.json", "key": "recall.ours", "fmt": "{:.3f}"},
+    {"name": "recall best baseline", "source": "demo_results/summary.json", "key": "recall.best_baseline", "fmt": "{:.3f}"},
+    {"name": "label share pct", "source": "demo_results/summary.json", "key": "label_share", "scale": 100, "fmt": "{:.0f}"},
+    {"name": "gain over best pct", "expr": "100 * (v['recall ours'] / v['recall best baseline'] - 1)", "fmt": "{:.1f}"},
+    {"name": "runtime minutes", "source": "demo_results/timing.json", "key": "largest_table_minutes", "fmt": "{:.0f}"}
+  ],
+  "tables": [
+    {"tag": "MAINROWS", "source": "demo_results/main_table.csv", "decimals": 3,
+     "families": ["Rule-based", "Learning-based"], "name_macro": "\\textbf{\\sys}"}
+  ],
+  "targets": {
+    "en": {"numbers": "numbers_en.tex", "sections": ["sections_en/05_experiments.tex"]},
+    "zh": {"numbers": "numbers_zh.tex", "sections": ["sections_zh/05_experiments.tex"]}
+  },
+  "report": "BACKFILL.md"
+}

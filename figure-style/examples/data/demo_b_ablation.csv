@@ -1,0 +1,22 @@
+# DEMONSTRATION DATA. Synthetic values for the figure-style examples, not a result of any paper.
+variant,axis,value
+Full,Low error,0.978
+Full,Mid error,0.918
+Full,High error,0.928
+Full,Mixed,0.968
+−S1,Low error,0.975
+−S1,Mid error,0.905
+−S1,High error,0.905
+−S1,Mixed,0.955
+−S2,Low error,0.972
+−S2,Mid error,0.88
+−S2,High error,0.915
+−S2,Mixed,0.93
+−S3,Low error,0.976
+−S3,Mid error,0.914
+−S3,High error,0.924
+−S3,Mixed,0.962
+−S4,Low error,0.965
+−S4,Mid error,0.896
+−S4,High error,0.91
+−S4,Mixed,0.942

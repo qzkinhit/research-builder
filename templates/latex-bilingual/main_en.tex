@@ -1,0 +1,36 @@
+%% ============================================================================
+%% main_en.tex, English version (the submitted one).
+%% Build: pdflatex main_en && bibtex main_en && pdflatex main_en && pdflatex main_en
+%% Mirror discipline: same sections, same \label names, same theorem numbering, same citation keys and the
+%% same \num keys as main_zh.tex. check_mirror.py verifies this.
+%% ============================================================================
+\documentclass[10pt]{article}
+%% Replace the next two lines by the venue class or style file, for example
+%% \documentclass{article}\usepackage{iclr2027_conference,times}, or \documentclass[conference]{IEEEtran}.
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{times}
+
+\input{preamble_shared}
+\input{numbers_en}
+
+\title{\sys{}: <One Sentence That States the Main Result>}
+\author{Anonymous Authors}
+\date{}
+
+\begin{document}
+\maketitle
+
+\input{sections_en/00_abstract}
+\input{sections_en/01_intro}
+\input{sections_en/02_related}
+\input{sections_en/03_problem}
+\input{sections_en/04_method}
+\input{sections_en/05_experiments}
+\input{sections_en/06_conclusion}
+
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\appendix
+\input{sections_en/07_appendix}
+\end{document}

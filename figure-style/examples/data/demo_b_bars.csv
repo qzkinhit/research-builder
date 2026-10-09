@@ -1,0 +1,14 @@
+# DEMONSTRATION DATA. Synthetic values for the figure-style examples, not a result of any paper.
+method,faults,value
+C1,2,0.892
+C1,3,0.872
+C1,4,0.851
+B2,2,0.881
+B2,3,0.843
+B2,4,0.826
+A3,2,0.909
+A3,3,0.898
+A3,4,0.877
+Ours,2,0.921
+Ours,3,0.929
+Ours,4,0.962

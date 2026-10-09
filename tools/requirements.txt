@@ -1,0 +1,9 @@
+python-docx
+python-pptx
+lxml
+latex2mathml
+mathml2omml
+numpy
+pandas
+matplotlib
+Pillow

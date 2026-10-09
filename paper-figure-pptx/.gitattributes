@@ -1,0 +1,5 @@
+# Archive original media bytes; checksums in each manifest verify their identity.
+assets/**/*.svg -text -diff
+assets/**/*.pdf binary
+assets/**/*.pptx binary
+assets/**/*.png binary

@@ -1,0 +1,74 @@
+%% ============================================================================
+%% main_zh.tex, Chinese mirror of main_en.tex.
+%% Build: xelatex main_zh && bibtex main_zh && xelatex main_zh && xelatex main_zh
+%% Mirror discipline: same sections, same \label names, same theorem numbering, same citation keys and the
+%% same \num keys as main_en.tex. check_mirror.py verifies this.
+%% ============================================================================
+\documentclass[10pt]{article}
+\usepackage[letterpaper,margin=1in]{geometry}
+
+%% ---- Chinese typesetting ---------------------------------------------------
+%% Font fallback chain. FandolSong ships with TeX Live, so the build is reproducible on any machine. The next
+%% three are the usual system serifs on macOS, Windows and Linux.
+\usepackage{xeCJK}
+\IfFontExistsTF{FandolSong-Regular.otf}{%
+  \setCJKmainfont{FandolSong-Regular.otf}[BoldFont=FandolSong-Bold.otf,ItalicFont=FandolKai-Regular.otf]%
+  \setCJKsansfont{FandolHei-Regular.otf}[BoldFont=FandolHei-Bold.otf]%
+  \setCJKmonofont{FandolFang-Regular.otf}%
+}{%
+  \IfFontExistsTF{Songti SC}{%
+    \setCJKmainfont{Songti SC}[BoldFont=Heiti SC,ItalicFont=Kaiti SC]%
+  }{%
+    \IfFontExistsTF{SimSun}{%
+      \setCJKmainfont{SimSun}[BoldFont=SimHei,ItalicFont=KaiTi]%
+    }{%
+      \setCJKmainfont{Noto Serif CJK SC}%
+    }%
+  }%
+}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
+
+%% ---- Chinese head names, declared before the shared preamble ---------------
+\newcommand{\headtheorem}{定理}
+\newcommand{\headlemma}{引理}
+\newcommand{\headproposition}{命题}
+\newcommand{\headcorollary}{推论}
+\newcommand{\headdefinition}{定义}
+\newcommand{\headassumption}{假设}
+\newcommand{\headexample}{例}
+\newcommand{\headremark}{注}
+\newcommand{\headfinding}{发现}
+\newcommand{\headproof}{证明}
+
+\input{preamble_shared}
+\input{numbers_zh}
+
+\renewcommand{\abstractname}{摘要}
+\renewcommand{\refname}{参考文献}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+\renewcommand{\appendixname}{附录}
+\floatname{algorithm}{算法}
+
+\title{\sys{}: <一句点明主要结果的话>}
+\author{匿名作者}
+\date{}
+
+\begin{document}
+\maketitle
+
+\input{sections_zh/00_abstract}
+\input{sections_zh/01_intro}
+\input{sections_zh/02_related}
+\input{sections_zh/03_problem}
+\input{sections_zh/04_method}
+\input{sections_zh/05_experiments}
+\input{sections_zh/06_conclusion}
+
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\appendix
+\input{sections_zh/07_appendix}
+\end{document}

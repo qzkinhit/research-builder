@@ -1,0 +1,21 @@
+% Table style of figure-style/tables, one palette shared by the main, capability and dataset tables.
+% Put \input{table_macros} in the preamble. Needs booktabs, colortbl, xcolor, array, pifont.
+%
+%   first place in a column   \best{0.957}         dark background, bold
+%   second place in a column  \secondbest{0.847}   light background
+%   family row of main table  \grp{\ncol}{Deep matching} \\
+%   row of the proposed method \oursrow before the row
+%   capability marks          \cmark  \xmark
+%   value waiting for backfill \pend{0.xx}          red, must be gone before submission
+
+\definecolor{tabBest}{RGB}{31,78,121}     % first place, used at 35 percent tint
+\definecolor{tabSecond}{RGB}{207,224,237} % second place
+\definecolor{tabBand}{RGB}{226,234,242}   % row of the proposed method
+
+\newcommand{\best}[1]{\cellcolor{tabBest!35}\textbf{#1}}
+\newcommand{\secondbest}[1]{\cellcolor{tabSecond}#1}
+\newcommand{\grp}[2]{\multicolumn{#1}{l}{\textbf{\textit{#2}}}}
+\newcommand{\oursrow}{\rowcolor{tabBand}}
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+\newcommand{\pend}[1]{\textcolor{red}{#1}}

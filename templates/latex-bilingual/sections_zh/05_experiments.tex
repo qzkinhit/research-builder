@@ -1,0 +1,65 @@
+\section{实验评估}
+\label{sec:experiments}
+我们回答三个研究问题。RQ 1 考察 \sys{} 是否<……>(贡献 1)。RQ 2 考察<……>。RQ 3 考察<……>。实验覆盖 \num{families} 个方法族、\num{baselines} 个基线和 \num{datasets} 个数据集。
+
+\subsection{实验设置}
+\label{sec:setup}
+(1)\textbf{数据集。}表~\ref{tab:datasets}列出了各数据集的任务、错误类型与规模。<数据从哪来、错误从哪来>。
+(2)\textbf{基线。}我们与表~\ref{tab:related}中的全部方法比较。<所有方法从什么数据学习>。<\sys{} 有何不同>。
+(3)\textbf{指标。}我们报告\textbf{召回率}(\textbf{R})，$R = \tfrac{|\text{找到的重复}|}{|\text{全部重复}|}$，以及<……>。
+
+\begin{table}[t]
+\centering
+\caption{各数据集的任务、错误类型与规模。}
+\label{tab:datasets}
+\footnotesize
+\begin{tabular}{@{}r|c|c|c@{}}
+\toprule
+Dataset & Task & Error types & Records \\
+\midrule
+\textbf{<D1>}~\cite{placeholder2024} & DD & T/M & <n> \\
+\textbf{<D2>}~\cite{placeholder2024} & DD & T/F & <n> \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{实验结果与发现}
+\label{sec:findings}
+
+\begin{table}[t]
+\centering
+\caption{相同标注预算下各方法的召回率。}
+\label{tab:main}
+\footnotesize
+\setlength{\tabcolsep}{3.6pt}
+\renewcommand{\arraystretch}{0.9}
+\begin{tabular}{@{}r@{\hspace{4pt}}r|ccc@{}}
+\toprule
+Rank & Method & D1$\uparrow$ & D2$\uparrow$ & D3$\uparrow$ \\
+\midrule
+%%BEGIN-MAINROWS
+\grp{5}{Rule-based} \\
+4 & R-Match & 0.612 & 0.574 & 0.655 \\
+5 & R-Block & 0.598 & 0.603 & 0.621 \\
+\grp{5}{Learning-based} \\
+3 & L-Forest & 0.844 & 0.792 & \secondbest{0.861} \\
+2 & L-Boost & \secondbest{0.851} & \secondbest{0.805} & 0.833 \\
+\midrule
+\oursrow
+1 & \textbf{\sys} & \best{0.912} & \best{0.866} & \best{0.890} \\
+%%END-MAINROWS
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{finding}
+\label{find:main}
+\sys{} <带有它所胜出的比较的强论断>。
+\end{finding}
+\sys{} 比最强的基线高 \num{gain over best pct}\%(表~\ref{tab:main})。<机理，对应引言的观察 (1)>。<边界情形及其实测原因>。
+
+\begin{finding}
+\label{find:cost}
+<关于代价或规模的论断>。
+\end{finding}
+\sys{} 在最大的表上用时 \num{runtime minutes} 分钟。<哪一步占主要开销，随规模如何增长>。

@@ -1,0 +1,32 @@
+\section{The \sys{} Method}
+\label{sec:method}
+% Follows the system figure. Purpose, definition, algorithm, guarantee, complexity for each step.
+\sys{} consists of two steps. Step~1 <...>. Step~2 <...>, and its output feeds back into Step~1 for the next round.
+
+\subsection{Step 1: <Name>}
+\label{sec:step1}
+<Purpose in one sentence>. <Definition>. <How it works on the running example>.
+
+\subsection{Step 2: <Name>}
+\label{sec:step2}
+<Purpose in one sentence>. Algorithm~\ref{alg:main} lists the procedure.
+
+\begin{algorithm}[t]
+\caption{<Name of the procedure>}
+\label{alg:main}
+\begin{algorithmic}[1]
+\REQUIRE candidate set $\cand$, budget $\budget$
+\ENSURE labeled set $L$
+\STATE $L \gets \emptyset$
+\WHILE{$|L| < \budget$}
+  \STATE <select the next candidate by the rule of Step~2>
+\ENDWHILE
+\RETURN $L$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{theorem}[Guarantee]
+\label{thm:guarantee}
+Under Assumption <k>, the policy of Algorithm~\ref{alg:main} is no worse than <every baseline it contains>.
+\end{theorem}
+% State the theorem as a conditional guarantee when the implementation does not meet every premise.

@@ -1,0 +1,6 @@
+method,family,D1,D2,D3
+R-Match,Rule-based,0.612,0.574,0.655
+R-Block,Rule-based,0.598,0.603,0.621
+L-Forest,Learning-based,0.844,0.792,0.861
+L-Boost,Learning-based,0.851,0.805,0.833
+OurSys,ours,0.912,0.866,0.890

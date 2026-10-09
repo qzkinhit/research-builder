@@ -1,0 +1,83 @@
+%% ============================================================================
+%% preamble_shared.tex
+%% Shared preamble of main_en.tex and main_zh.tex. Everything that must be identical across the two language
+%% versions lives here, so that section files, labels, theorem counters, number macros and notation stay
+%% mirrored by construction. main_zh.tex defines the Chinese head names before it reads this file.
+%% ============================================================================
+
+%% ---- Latin text font -------------------------------------------------------
+%% Under pdflatex, main_en.tex loads the times package. Under xelatex, TeX Gyre Termes supplies the Times
+%% metrics when it is installed. fontspec is never loaded under pdflatex.
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+\else
+  \usepackage{fontspec}
+  \IfFontExistsTF{texgyretermes-regular.otf}{%
+    \setmainfont{texgyretermes}[Extension=.otf, UprightFont=*-regular, BoldFont=*-bold,
+      ItalicFont=*-italic, BoldItalicFont=*-bolditalic]%
+  }{}
+\fi
+
+%% ---- packages --------------------------------------------------------------
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,array,adjustbox,multirow,colortbl,pifont}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\usepackage{subcaption}
+\usepackage{url}
+\usepackage{hyperref}
+\definecolor{citecolor}{HTML}{009B3A}
+\definecolor{refcolor}{HTML}{4527C4}
+\hypersetup{colorlinks=true, citecolor=citecolor, linkcolor=refcolor, urlcolor=refcolor, pdfborder={0 0 0}}
+
+%% ---- table style (canonical copy in figure-style/tables/table_macros.tex) --
+\input{table_macros}
+\makeatletter\let\inputrows\@@input\makeatother
+
+%% ---- theorem-like environments ---------------------------------------------
+%% Head names go through macros, so both language versions share counters and numbering.
+\providecommand{\headtheorem}{Theorem}
+\providecommand{\headlemma}{Lemma}
+\providecommand{\headproposition}{Proposition}
+\providecommand{\headcorollary}{Corollary}
+\providecommand{\headdefinition}{Definition}
+\providecommand{\headassumption}{Assumption}
+\providecommand{\headexample}{Example}
+\providecommand{\headremark}{Remark}
+\providecommand{\headfinding}{Finding}
+\providecommand{\headproof}{Proof}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{\headtheorem}[section]
+\newtheorem{lemma}{\headlemma}[section]
+\newtheorem{proposition}{\headproposition}[section]
+\newtheorem{corollary}{\headcorollary}[section]
+\theoremstyle{definition}
+\newtheorem{definition}{\headdefinition}[section]
+\newtheorem{assumption}{\headassumption}[section]
+\newtheorem{example}{\headexample}[section]
+%% Findings are numbered through the whole paper (Finding 1 to Finding 7), not per section.
+\newtheorem{finding}{\headfinding}
+\theoremstyle{remark}
+\newtheorem{remark}{\headremark}[section]
+\renewcommand{\proofname}{\headproof}
+
+%% ---- system name -----------------------------------------------------------
+\newcommand{\sys}{\mbox{OurSys}}
+
+%% ---- measured numbers --------------------------------------------------------
+%% Every measured number is \num{key}. templates/backfill/backfill.py writes the values into numbers_<lang>.tex
+%% from the result files, so a rerun refills both papers. A key without a value prints in red.
+\newcommand{\pending}[1]{\textcolor{red}{[\detokenize{#1}]}}
+\newcommand{\setnum}[2]{\expandafter\gdef\csname rbnum@#1\endcsname{#2}}
+\newcommand{\num}[1]{\ifcsname rbnum@#1\endcsname\csname rbnum@#1\endcsname\else\pending{#1}\fi}
+
+%% ---- notation (docs/CONCEPTS.md, one concept one name one symbol) ----------
+\newcommand{\budget}{B}
+\newcommand{\cand}{\mathcal{C}}
+\newcommand{\policy}{\pi}

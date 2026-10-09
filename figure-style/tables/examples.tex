@@ -1,0 +1,73 @@
+% The three experiment tables of a paper in this table style, filled with demonstration values.
+% Compile with: pdflatex examples.tex
+% Table 1 sits in Related Work, Table 2 and Table 3 in the experiments. Methods, datasets and numbers are fictional.
+\documentclass[10pt]{article}
+\usepackage[paperwidth=8.5in,paperheight=11in,margin=0.66in]{geometry}
+\usepackage{booktabs,colortbl,xcolor,array,pifont,adjustbox}
+\usepackage{times}
+\input{table_macros}
+% primitive input, expandable, so generated rows may start with \multicolumn
+\makeatletter\let\inputrows\@@input\makeatother
+\newcommand{\sys}{OurSys}
+\pagestyle{empty}
+\begin{document}
+
+\noindent\begin{minipage}[t]{3.5in}
+\centering
+{\small TABLE I\\[1pt]\textsc{What each compared method uses, outputs and guarantees.}}\\[3pt]
+\footnotesize
+\setlength{\tabcolsep}{2.2pt}
+\adjustbox{max width=\linewidth}{%
+\begin{tabular}{@{}>{\raggedleft\arraybackslash}m{0.43\linewidth}|c|cccccc@{}}
+\toprule
+Method & Fam. & Bud. & Typ. & Task & Exp. & Tr. & Guar. \\
+\midrule
+R-Match, R-Block [1], [2] & RB & \xmark & \cmark & \xmark & \cmark & \xmark & \xmark \\
+L-Forest, L-Boost [3], [4] & LB & \cmark & \xmark & \xmark & \xmark & \xmark & \xmark \\
+D-Pair [5] & DM & \cmark & \cmark & \xmark & \xmark & \cmark & \xmark \\
+D-Graph [6] & DM & \xmark & \cmark & \xmark & \xmark & \cmark & \xmark \\
+P-Zero, P-Few [7], [8] & LLM & \xmark & \cmark & \xmark & \cmark & \cmark & \xmark \\
+\midrule
+\oursrow
+\textbf{\sys} & & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark \\
+\bottomrule
+\end{tabular}}
+\end{minipage}\hfill
+\begin{minipage}[t]{3.5in}
+\centering
+{\small TABLE II\\[1pt]\textsc{The datasets with their task, error types and size, and the metric reported on each.}}\\[3pt]
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}r|c|c|cc|c@{}}
+\toprule
+Dataset & Task & Error types & Records & Pairs & Metric \\
+\midrule
+\textbf{Shop} [9] & DD & T/M/F & 2{,}000 & 1.9M & F1 \\
+\textbf{Songs} [10] & DD & T/F & 9{,}800 & 48M & F1 \\
+\textbf{Clinic} [11] & SM & M/F & 640 & 0.2M & F1 \\
+\textbf{Fleet} [12] & SM & T/M/F/D & 1{,}250 & 0.8M & F1 \\
+\textbf{Ledger} [13] & EL & T/D & 15{,}400 & 0.4M & F1 \\
+\textbf{Wiki} [14] & EL & T/M & 22{,}100 & 1.2M & F1 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+
+\vspace{18pt}
+\begin{center}
+{\small TABLE III\\[1pt]\textsc{Results of all methods when each receives the same labeling budget and only OurSys allocates it by downstream feedback.}}\\[3pt]
+\footnotesize
+\setlength{\tabcolsep}{3.6pt}
+\renewcommand{\arraystretch}{0.9}
+\begin{tabular}{@{}r@{\hspace{4pt}}r|ccc|cccc|ccc@{}}
+\toprule
+\multicolumn{2}{c|}{Task / Dataset} & \multicolumn{3}{c|}{Duplicate detection (\textbf{DD})} & \multicolumn{4}{c|}{Schema matching (\textbf{SM})} & \multicolumn{3}{c}{Entity linking (\textbf{EL})} \\
+Rank & Method & Shop$\uparrow$ & Songs$\uparrow$ & Papers$\uparrow$ & Clinic$\uparrow$ & Fleet$\uparrow$ & Grid$\uparrow$ & Atlas$\uparrow$ & Ledger$\uparrow$ & News$\uparrow$ & Wiki$\uparrow$ \\
+\midrule
+\inputrows examples_mainrows.tex
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{6pt}
+\noindent{\footnotesize Demonstration values for fictional methods and datasets. Ranks are the mean of the per-column ranks computed on the printed values, the best value of each column has the dark background and bold type, the second has the light background, and ties share a shade.}
+\end{document}

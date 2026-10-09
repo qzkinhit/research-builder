@@ -1,0 +1,80 @@
+%% Rebuttal and revision plan template.
+%% Build: pdflatex rebuttal_template.tex
+%% Writing rules: knowledge/rebuttal.md. Replace every <...> slot. Keep the reviewer colors consistent.
+\documentclass[10pt]{article}
+\usepackage[letterpaper,margin=0.75in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+
+%% ---- one color per reviewer ---------------------------------------------
+\definecolor{Rone}{HTML}{1F3A93}    % Reviewer 1, deep blue
+\definecolor{Rtwo}{HTML}{2E7D32}    % Reviewer 2, green
+\definecolor{Rthree}{HTML}{6A1B9A}  % Reviewer 3, purple
+
+%% \rbox{color}{label}: white bold label on the reviewer color (reviewer heads and point tags)
+\newcommand{\rbox}[2]{{\setlength{\fboxsep}{1.5pt}\colorbox{#1}{\textcolor{white}{\textbf{#2}}}}}
+%% \xref{color}{label}: cross-reference to another reviewer's point
+\newcommand{\xref}[2]{\textcolor{#1}{\textbf{#2}}}
+%% \nref{[n]}: citation that only appears in this response, linked to the list at the end
+\DeclareRobustCommand{\nref}[1]{\hyperlink{newrefs}{#1}}
+
+\emergencystretch=2em
+\pagestyle{plain}
+
+\begin{document}
+\begin{center}
+{\large\bfseries Author Feedback and Revision Plan (Submission <ID>)}
+\end{center}
+
+We thank the reviewers for their careful reading. <What all reviewers agree on, in one sentence>. Responses below are coded by reviewer: \textcolor{Rone}{\textbf{\underline{Reviewer 1 = blue}}}, \textcolor{Rtwo}{\textbf{\underline{Reviewer 2 = green}}}, \textcolor{Rthree}{\textbf{\underline{Reviewer 3 = purple}}}. The new experiments are in our anonymized repository\nref{[51]}.
+
+\medskip
+\noindent\fcolorbox{black!30}{black!6}{\begin{minipage}{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+{\fontsize{8.8pt}{10.2pt}\selectfont
+\textbf{General Response.}
+(1)\textit{<Topic one>} (for \xref{Rone}{\#R1O2}, \xref{Rtwo}{\#R2O1}). <Direct answer in the first sentence>. <Evidence with numbers>. <The concrete revision, with section numbers>.
+(2)\textit{<Topic two>} (for \xref{Rthree}{\#R3O4}). <Direct answer>. <Evidence>. <Revision>.
+\par}
+\end{minipage}}
+
+\medskip
+\noindent\rbox{Rone}{Reviewer 1}
+\rbox{Rone}{\#R1O1:} You are right. <What holds unconditionally and stays>. <What needs a condition>. We move <part> to a separate proposition that states <assumption 1> and <assumption 2> explicitly.
+\rbox{Rone}{\#R1O2:} Addressed in the General Response.
+\rbox{Rone}{\#R1O3:} <Direct statement of the correct fact>. <What each quantity measures>. <Why the two results are consistent>. \textbf{<Headline number of a new run>.} <Revision>.
+\rbox{Rone}{\#R1M1, \#R1M2:} <Minor fixes listed in one sentence>.
+
+\medskip
+\noindent\rbox{Rtwo}{Reviewer 2}
+\rbox{Rtwo}{\#R2O1:} Addressed in the General Response.
+\rbox{Rtwo}{\#R2O2:} We reproduced <baseline>\nref{[52]} (<venue year>) on the <N> datasets of Table~\ref{tab:new}. \textbf{\textsc{OurSys} matches or exceeds it on all <N> datasets}, at <cost comparison>. <Revision>.
+
+\begin{table}[h]
+\centering\small
+\setlength{\abovecaptionskip}{2pt}
+\renewcommand{\arraystretch}{0.85}
+\caption{<What is compared, under which protocol>. \textsc{OurSys} is in bold.}
+\label{tab:new}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Dataset & \textsc{OurSys} & <Baseline A> & <Baseline B> & Cost \\
+\midrule
+<D1> & \textbf{.000} & .000 & .000 & <...> \\
+<D2> & \textbf{.000} & .000 & .000 & <...> \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\rbox{Rthree}{Reviewer 3}
+\rbox{Rthree}{\#R3O1:} <Direct answer>. <Evidence>. (\xref{Rone}{see \#R1O3}.)
+\rbox{Rthree}{\#R3M1 to \#R3M3:} These are presentation issues, and we accept every one. In revision we <fix 1>, <fix 2> and <fix 3>.
+
+\medskip
+{\noindent\footnotesize\hypertarget{newrefs}{\textbf{References.}} Bracketed citations follow the submitted paper. New in this response: [51] anonymized repository \url{https://anonymous.4open.science/r/<id>}, [52] <Author et al., Venue Year>.}
+\end{document}

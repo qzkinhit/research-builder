@@ -1,0 +1,4 @@
+interface:
+  display_name: "学术图与可编辑 PPT"
+  short_description: "保留既有学术图风格，复用与设计矢量图标，统一尺寸并交付可编辑 PPT"
+  default_prompt: "使用 $paper-figure-pptx，按我的参考图和最新论文修改学术插图，复用已保存的 SVG 素材，必要时按当前风格自行设计图标，统一视觉尺寸并收紧布局。"

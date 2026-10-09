@@ -1,0 +1,32 @@
+\section{\sys{} 方法}
+\label{sec:method}
+% 跟着系统图走。每一步依次写目的、定义、算法、保证、复杂度。
+\sys{} 由两步组成。第 1 步<……>。第 2 步<……>，其输出反馈给下一轮的第 1 步。
+
+\subsection{第 1 步：<名称>}
+\label{sec:step1}
+<一句话说明目的>。<定义>。<在贯穿例子上的演示>。
+
+\subsection{第 2 步：<名称>}
+\label{sec:step2}
+<一句话说明目的>。算法~\ref{alg:main}列出了具体过程。
+
+\begin{algorithm}[t]
+\caption{<过程名称>}
+\label{alg:main}
+\begin{algorithmic}[1]
+\REQUIRE 候选集 $\cand$，预算 $\budget$
+\ENSURE 已标注集合 $L$
+\STATE $L \gets \emptyset$
+\WHILE{$|L| < \budget$}
+  \STATE <按第 2 步的规则选择下一个候选>
+\ENDWHILE
+\RETURN $L$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{theorem}[保证]
+\label{thm:guarantee}
+在假设 <k> 下，算法~\ref{alg:main}的策略不低于<它所包含的每个基线>。
+\end{theorem}
+% 实现不满足定理的全部前提时，把定理写成条件保证。

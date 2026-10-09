@@ -1,0 +1,6 @@
+{
+  "_note": "DEMONSTRATION DATA for templates/backfill, not a result of any paper.",
+  "n_baselines": 4,
+  "label_share": 0.05,
+  "recall": {"ours": 0.912, "best_baseline": 0.861}
+}

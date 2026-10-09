@@ -1,0 +1,24 @@
+.DS_Store
+~$*
+__pycache__/
+*.pyc
+
+# your own materials stay on this machine, only the READMEs are tracked
+materials/**
+!materials/**/
+!materials/README.md
+!materials/*/.gitkeep
+
+# research dropbox
+researched_papers/*
+!researched_papers/README.md
+!researched_papers/.gitkeep
+
+# generated outputs
+figure-style/examples/out/
+templates/**/*.aux
+templates/**/*.log
+templates/**/*.out
+templates/**/*.bbl
+templates/**/*.blg
+templates/**/*.pdf

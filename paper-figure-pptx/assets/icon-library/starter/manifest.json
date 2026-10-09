@@ -1,0 +1,233 @@
+{
+ "library": "starter",
+ "count": 16,
+ "icons": [
+  {
+   "id": "database",
+   "meaning": "数据集、数据源、数据池",
+   "tags": [
+    "data",
+    "source",
+    "pool"
+   ],
+   "author_type": "self-designed",
+   "style": "64 px canvas, 2.4 px ink stroke, shared palette of figure-archetypes.md",
+   "svg": "svg/database.svg",
+   "svg_sha256": "1c99ca75c7233e5f995a9a9506f8e9c89f327d9e7b7fffdf9fa52b2f811dd538",
+   "png": "fallback/database.png",
+   "png_sha256": "ae3a67458113f3f674570fb46dd8e9fcff09d987e3703d9e0d6c0ce5b3177315"
+  },
+  {
+   "id": "database-warning",
+   "meaning": "数据质量问题，如缺失、异常、重复、错误值",
+   "tags": [
+    "quality issue",
+    "error"
+   ],
+   "author_type": "self-designed",
+   "style": "64 px canvas, 2.4 px ink stroke, shared palette of figure-archetypes.md",
+   "svg": "svg/database-warning.svg",
+   "svg_sha256": "0f69fe8fdee1db1f39b71e952fdc44a8a35f0e2f8a957a3b46a969de48709b82",
+   "png": "fallback/database-warning.png",
+   "png_sha256": "cf0df889946d5bd6345dcf9963d764f62a9a43ab9d40207a1e0c4ec9092f41ed"
+  },
+  {
+   "id": "shield-check",
+   "meaning": "质量保障、真实性",
+   "tags": [
+    "quality assurance",
+    "authenticity"
+   ],
+   "author_type": "self-designed",
+   "style": "64 px canvas, 2.4 px ink stroke, shared palette of figure-archetypes.md",
+   "svg": "svg/shield-check.svg",
+   "svg_sha256": "3e07b49c785d95c5ea15cac6e491cd87f51433bd4e4d91a4838e6d85f58b7219",
+   "png": "fallback/shield-check.png",
+   "png_sha256": "e3d24541112f21cf76e76acd50e3a3f1885f94bc06354b107ff42e27c3386d61"
+  },
+  {
+   "id": "magnifier-signal",
+   "meaning": "检测、分析",
+   "tags": [
+    "detection",
+    "analysis"
+   ],
+   "author_type": "self-designed",
+   "style": "64 px canvas, 2.4 px ink stroke, shared palette of figure-archetypes.md",
+   "svg": "svg/magnifier-signal.svg",
+   "svg_sha256": "20872bf9734eba1d499ab583795c6456e6a5f64f26dc9879f7cb131c630c4d72",
+   "png": "fallback/magnifier-signal.png",
+   "png_sha256": "eea79651093cc86bb26e5e550c1788544f42e8a65b95713a76c4f86ac054a709"
+  },
+  {
+   "id": "gear",
+   "meaning": "模型、处理流程、指标聚合",
+   "tags": [
+    "model",
+    "process",
+    "aggregation"
+   ],
+   "author_type": "self-designed",
+   "style": "64 px canvas, 2.4 px ink stroke, shared palette of figure-archetypes.md",
+   "svg": "svg/gear.svg",
+   "svg_sha256": "60533deb96398d975de6a97e25aa2a8872876c655a03bbeeacd45c9d305378cb",
+   "png": "fallback/gear.png",
+   "png_sha256": "18717096d4cac7fc0aa148bf1769bf3e4732ba93f381c026fab5c7a34554eb51"
+  },
+  {
+   "id": "gauge",
+   "meaning": "评估、优化校验",
+   "tags": [
+    "evaluation",
+    "validation"
+   ],
+   "author_type": "self-designed",
+   "style": "64 px canvas, 2.4 px ink stroke, shared palette of figure-archetypes.md",
+   "svg": "svg/gauge.svg",
+   "svg_sha256": "b27139f4ab0a7b550d51d24a8d097633157a44831d83d385eeb9538a6a427394",
+   "png": "fallback/gauge.png",
+   "png_sha256": "63315374b59642a65a7632c7d1297aa227f26acae6b5db7499be60a936187097"
+  },
+  {
+   "id": "pie-bars",
+   "meaning": "质量维度刻画、统计分析",
+   "tags": [
+    "statistics",
+    "dimensions"
+   ],
+   "author_type": "self-designed",
+   "style": "64 px canvas, 2.4 px ink stroke, shared palette of figure-archetypes.md",
+   "svg": "svg/pie-bars.svg",
+   "svg_sha256": "f69487423566ea06daebb26a898af2c57737e9b941b2e664e3f7c69f0504662b",
+   "png": "fallback/pie-bars.png",
+   "png_sha256": "3a12a308a42b2b67686c4d1dfcfb5462e4218e478670f480fc53396efc8a508b"
+  },
+  {
+   "id": "network-model",
+   "meaning": "模型反馈、关联建模",
+   "tags": [
+    "model feedback",
+    "relations"
+   ],
+   "author_type": "self-designed",
+   "style": "64 px canvas, 2.4 px ink stroke, shared palette of figure-archetypes.md",
+   "svg": "svg/network-model.svg",
+   "svg_sha256": "2cae758b1f5707371834b214436a3cbffe62608319de06322adb357a0383597c",
+   "png": "fallback/network-model.png",
+   "png_sha256": "debdb5d512373692a000be09792d216b806c778fe86b7ac239da4e273eb334e5"
+  },
+  {
+   "id": "lightbulb",
+   "meaning": "创新点、可解释",
+   "tags": [
+    "idea",
+    "explanation"
+   ],
+   "author_type": "self-designed",
+   "style": "64 px canvas, 2.4 px ink stroke, shared palette of figure-archetypes.md",
+   "svg": "svg/lightbulb.svg",
+   "svg_sha256": "82099b11f8fb499f2a34b000a171d2845a56ab7f7d6a181ccd241a62fc5cac50",
+   "png": "fallback/lightbulb.png",
+   "png_sha256": "30f6abd2117c6da4f546317e7fe9332413f4108122fefe42bb13ad5c776d22ba"
+  },
+  {
+   "id": "diamond",
+   "meaning": "高价值数据",
+   "tags": [
+    "high value"
+   ],
+   "author_type": "self-designed",
+   "style": "64 px canvas, 2.4 px ink stroke, shared palette of figure-archetypes.md",
+   "svg": "svg/diamond.svg",
+   "svg_sha256": "4e0988b7223f5c1161677d43a37f9443e634dcea7a1618f61d60b59ddeb24368",
+   "png": "fallback/diamond.png",
+   "png_sha256": "5a7812285e6ee6ddd3e6f39d6e5ff8e832160a0050fa7a1c73bd4dfe00cccabb"
+  },
+  {
+   "id": "document-check",
+   "meaning": "报告、规则、标注",
+   "tags": [
+    "report",
+    "rule",
+    "annotation"
+   ],
+   "author_type": "self-designed",
+   "style": "64 px canvas, 2.4 px ink stroke, shared palette of figure-archetypes.md",
+   "svg": "svg/document-check.svg",
+   "svg_sha256": "4f1e4a959491bccaccfcac62e10f08fa6f63a6cbc8fd4e1cebc3e4ba6adccb2b",
+   "png": "fallback/document-check.png",
+   "png_sha256": "44135cf8263dd4ece742557ce68f93cead2f5840e56c64deb61025cd766f46d6"
+  },
+  {
+   "id": "tree-boxes",
+   "meaning": "层级结构、模型需求",
+   "tags": [
+    "hierarchy",
+    "requirements"
+   ],
+   "author_type": "self-designed",
+   "style": "64 px canvas, 2.4 px ink stroke, shared palette of figure-archetypes.md",
+   "svg": "svg/tree-boxes.svg",
+   "svg_sha256": "1b00bb1276810541d5d4cf01e71868e0180ed2e0263f8497e7cf3e903d0ae436",
+   "png": "fallback/tree-boxes.png",
+   "png_sha256": "7375659c862075d7f508011902d30bf36bd921824b0b477a952fdbce6e87e1e4"
+  },
+  {
+   "id": "flow-nodes",
+   "meaning": "修复策略集、流程编排",
+   "tags": [
+    "workflow",
+    "orchestration"
+   ],
+   "author_type": "self-designed",
+   "style": "64 px canvas, 2.4 px ink stroke, shared palette of figure-archetypes.md",
+   "svg": "svg/flow-nodes.svg",
+   "svg_sha256": "1ebf4f9ebd4542c2e238cfe6cbfdb4574d76aed13cb01ce4caa616514d3476be",
+   "png": "fallback/flow-nodes.png",
+   "png_sha256": "90db03a2c7c4dc11d245f98e4f63ae8505d5a61b1be5c989563cd3a619648884"
+  },
+  {
+   "id": "sensor-wave",
+   "meaning": "原始工业数据、采集",
+   "tags": [
+    "sensor",
+    "acquisition",
+    "time series"
+   ],
+   "author_type": "self-designed",
+   "style": "64 px canvas, 2.4 px ink stroke, shared palette of figure-archetypes.md",
+   "svg": "svg/sensor-wave.svg",
+   "svg_sha256": "9473b86045b0ef38b835530b79919ffe13722d38b735f64a7fab1c810193115c",
+   "png": "fallback/sensor-wave.png",
+   "png_sha256": "4374931a56af4d4f1fb5c947d4c2d7502d890010014b7cc6c8e7534cc6bed947"
+  },
+  {
+   "id": "table",
+   "meaning": "表格数据、关系数据",
+   "tags": [
+    "table",
+    "relational"
+   ],
+   "author_type": "self-designed",
+   "style": "64 px canvas, 2.4 px ink stroke, shared palette of figure-archetypes.md",
+   "svg": "svg/table.svg",
+   "svg_sha256": "456f6b51905d1e0d2a5a4512e9a5e247c9d1c154e92022266954ff50cb40a387",
+   "png": "fallback/table.png",
+   "png_sha256": "5bba44e7fbf380b610e5bc129861e59268002086faacc3a062753f590f81a735"
+  },
+  {
+   "id": "chip-model",
+   "meaning": "基础模型、大模型",
+   "tags": [
+    "foundation model",
+    "LLM"
+   ],
+   "author_type": "self-designed",
+   "style": "64 px canvas, 2.4 px ink stroke, shared palette of figure-archetypes.md",
+   "svg": "svg/chip-model.svg",
+   "svg_sha256": "eff1d64d0fae1308537a77511d1f42f1dd0d3de0c75bbd31bba83d0249e8772f",
+   "png": "fallback/chip-model.png",
+   "png_sha256": "1c41d4fbdd109dcfc7efaa2c67cfaaac17f92d18a4cc98f0b8b1503a7ac93c05"
+  }
+ ]
+}

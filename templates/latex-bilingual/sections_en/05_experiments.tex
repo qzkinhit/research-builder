@@ -1,0 +1,65 @@
+\section{Experimental Evaluation}
+\label{sec:experiments}
+We answer three research questions. RQ 1 asks whether \sys{} <...> (Contribution~1). RQ 2 asks <...>. RQ 3 asks <...>. The study covers \num{families} method families, \num{baselines} baselines and \num{datasets} datasets.
+
+\subsection{Setup}
+\label{sec:setup}
+(1)\textbf{Datasets.} Table~\ref{tab:datasets} lists the task, error types and size of each dataset. <Where the data and the errors come from>.
+(2)\textbf{Baselines.} We compare with every method of Table~\ref{tab:related}. <What all methods learn from>. <How \sys{} differs>.
+(3)\textbf{Metrics.} We report \textbf{recall} (\textbf{R}), $R = \tfrac{|\text{found duplicates}|}{|\text{all duplicates}|}$, and <...>.
+
+\begin{table}[t]
+\centering
+\caption{The datasets with their task, error types and size.}
+\label{tab:datasets}
+\footnotesize
+\begin{tabular}{@{}r|c|c|c@{}}
+\toprule
+Dataset & Task & Error types & Records \\
+\midrule
+\textbf{<D1>}~\cite{placeholder2024} & DD & T/M & <n> \\
+\textbf{<D2>}~\cite{placeholder2024} & DD & T/F & <n> \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Findings and Results}
+\label{sec:findings}
+
+\begin{table}[t]
+\centering
+\caption{Recall of all methods under the same labeling budget.}
+\label{tab:main}
+\footnotesize
+\setlength{\tabcolsep}{3.6pt}
+\renewcommand{\arraystretch}{0.9}
+\begin{tabular}{@{}r@{\hspace{4pt}}r|ccc@{}}
+\toprule
+Rank & Method & D1$\uparrow$ & D2$\uparrow$ & D3$\uparrow$ \\
+\midrule
+%%BEGIN-MAINROWS
+\grp{5}{Rule-based} \\
+4 & R-Match & 0.612 & 0.574 & 0.655 \\
+5 & R-Block & 0.598 & 0.603 & 0.621 \\
+\grp{5}{Learning-based} \\
+3 & L-Forest & 0.844 & 0.792 & \secondbest{0.861} \\
+2 & L-Boost & \secondbest{0.851} & \secondbest{0.805} & 0.833 \\
+\midrule
+\oursrow
+1 & \textbf{\sys} & \best{0.912} & \best{0.866} & \best{0.890} \\
+%%END-MAINROWS
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{finding}
+\label{find:main}
+\sys{} <strong claim with the comparison it wins>.
+\end{finding}
+\sys{} exceeds the strongest baseline by \num{gain over best pct}\% (Table~\ref{tab:main}). <Mechanism, tied to Observation (1)>. <Boundary case and its measured reason>.
+
+\begin{finding}
+\label{find:cost}
+<Claim about cost or scaling>.
+\end{finding}
+\sys{} finishes in \num{runtime minutes} minutes on the largest table. <Which step dominates and how it grows>.

@@ -1,0 +1,30 @@
+\section{Problem Definition}
+\label{sec:problem}
+% Input object, decision, policy, optimization problem. Each definition is followed by the running example.
+
+\begin{definition}[Candidate Set]
+\label{def:candidate}
+Given a table $T$, the candidate set $\cand$ is <definition>.
+\end{definition}
+
+\begin{example}
+\label{ex:candidate}
+In Example~\ref{ex:motivation}, <the candidate set of the running example>.
+\end{example}
+
+\begin{definition}[Labeling Policy]
+\label{def:policy}
+A policy $\policy$ maps <state> to <decision> such that at most $\budget$ candidates are labeled.
+\end{definition}
+
+The goal is
+\begin{equation}
+\label{eq:objective}
+\max_{\policy}\ \mathrm{Quality}(\policy(\cand)) \quad \text{s.t.} \quad |\policy(\cand)| \le \budget .
+\end{equation}
+
+\begin{theorem}[Hardness]
+\label{thm:hard}
+Under general per-candidate costs, the decision version of Problem~\eqref{eq:objective} is NP-complete.
+\end{theorem}
+Appendix~\ref{app:proof-hard} gives the proof. The result motivates the approximation of Section~\ref{sec:method}.

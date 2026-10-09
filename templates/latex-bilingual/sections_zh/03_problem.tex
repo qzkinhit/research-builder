@@ -1,0 +1,30 @@
+\section{问题定义}
+\label{sec:problem}
+% 输入对象、决策、策略、优化问题。每个定义后跟贯穿例子。
+
+\begin{definition}[候选集]
+\label{def:candidate}
+给定表 $T$，候选集 $\cand$ 是<定义>。
+\end{definition}
+
+\begin{example}
+\label{ex:candidate}
+在例~\ref{ex:motivation}中，<贯穿例子的候选集>。
+\end{example}
+
+\begin{definition}[标注策略]
+\label{def:policy}
+策略 $\policy$ 把<状态>映射为<决策>，且至多标注 $\budget$ 个候选。
+\end{definition}
+
+目标为
+\begin{equation}
+\label{eq:objective}
+\max_{\policy}\ \mathrm{Quality}(\policy(\cand)) \quad \text{s.t.} \quad |\policy(\cand)| \le \budget .
+\end{equation}
+
+\begin{theorem}[困难性]
+\label{thm:hard}
+在一般的逐候选代价下，问题~\eqref{eq:objective}的判定版本是 NP 完全的。
+\end{theorem}
+证明见附录~\ref{app:proof-hard}。这一结果说明第~\ref{sec:method}~节需要近似方法。
