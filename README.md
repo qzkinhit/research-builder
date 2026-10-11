@@ -1,5 +1,9 @@
 # research-builder
 
+[![LINUX DO 友情链接](https://img.shields.io/badge/LINUX%20DO-%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5-ffb003?style=for-the-badge&labelColor=1c1c1e&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI%2BPGNsaXBQYXRoIGlkPSJhIj48Y2lyY2xlIGN4PSI2MCIgY3k9IjYwIiByPSI0NyIvPjwvY2xpcFBhdGg%2BPGNpcmNsZSBmaWxsPSIjZjBmMGYwIiBjeD0iNjAiIGN5PSI2MCIgcj0iNTAiLz48cmVjdCBmaWxsPSIjMWMxYzFlIiBjbGlwLXBhdGg9InVybCgjYSkiIHg9IjEwIiB5PSIxMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmMGYwZjAiIGNsaXAtcGF0aD0idXJsKCNhKSIgeD0iMTAiIHk9IjQwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjQwIi8%2BPHJlY3QgZmlsbD0iI2ZmYjAwMyIgY2xpcC1wYXRoPSJ1cmwoI2EpIiB4PSIxMCIgeT0iODAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMzAiLz48L3N2Zz4%3D)](https://linux.do/)
+
+**友情链接** · [LINUX DO](https://linux.do/)，research-builder 交流讨论的社区。
+
 research-builder 是一套给 Claude Code 与 Codex 用的科研辅助 skill。它把一位研究者在数据质量与数据准备方向写顶会与汇刊论文时形成的五阶段工作流程、写作纪律和检查工具整理成规则，让 AI 在研究者的主导下承担其中的工程实现、实验记录、排版、润色和核查。
 
 研究由你主导。选题、文献调研与精读、核心想法、baseline 的取舍、方法改动和论文里的每一个论断，都由你提出或确认。skill 按五个阶段推进，每个阶段结束时交出可核验的产物，等你确认后再进入下一阶段。所有数字只来自真实的实验记录，它不会也不应该替你编造结果。
@@ -115,7 +119,3 @@ python3 tools/test_pptx_skill_install.py                     # 安装脚本测�
 ## 致谢与许可
 
 本仓库以 MIT 许可发布，见 [LICENSE](LICENSE)。`writing-deai.md` 改编自 [blader/humanizer](https://github.com/blader/humanizer)(MIT，Siqi Chen)，其模式来自 Wikipedia 的 [Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)，声明见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。这些规则用来让文字准确、具体、读起来像作者本人写的，规避 AI 检测器不在设计目标之内。
-
-## 友情链接
-
-* [LINUX DO](https://linux.do/)，research-builder 交流讨论的社区。
