@@ -115,3 +115,7 @@ python3 tools/test_pptx_skill_install.py                     # 安装脚本测�
 ## 致谢与许可
 
 本仓库以 MIT 许可发布，见 [LICENSE](LICENSE)。`writing-deai.md` 改编自 [blader/humanizer](https://github.com/blader/humanizer)(MIT，Siqi Chen)，其模式来自 Wikipedia 的 [Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)，声明见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。这些规则用来让文字准确、具体、读起来像作者本人写的，规避 AI 检测器不在设计目标之内。
+
+## 友情链接
+
+* [LINUX DO](https://linux.do/)，research-builder 交流讨论的社区。
