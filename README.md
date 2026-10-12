@@ -4,13 +4,20 @@
 
 **友情链接** · [LINUX DO](https://linux.do/)，research-builder 交流讨论的社区。
 
+> [!TIP]
+> **图形界面 BiWrite。** [BiWrite](https://github.com/zzccppp/biwrite) 是本 skill 的桌面编辑器（macOS 与 Windows），用来写中英双语论文。左侧写正文，右侧逐段对照另一种语言，LaTeX 论文在旁边编译成 PDF，未保存的修改也能编译，点击 PDF 中的句子即可选中源码。它的写作助手按本 skill 的规则工作，润色与修改按 `writing-deai.md` 去 AI 腔并匹配你的文风，仿写按 `knowledge/` 的论文骨架，图表按 `figure-style/`，PPT 图按 `paper-figure-pptx/` 的可编辑插图规则并使用图标库，另有语法修复和先编译检查再写入的智能应用。BiWrite 可以在设置中把 skill 更新到本仓库的最新版本，也可以直接使用你本机的 skill 文件夹，`materials/` 中的论文、文风样本、参考图和图标都会用上。下载见 [Releases](https://github.com/zzccppp/biwrite/releases)。
+>
+> *GUI.* [BiWrite](https://github.com/zzccppp/biwrite) is the desktop editor of this skill for writing a paper in English and Chinese side by side. Its writing assistant applies these rules to polishing, new paragraphs, figures, editable PowerPoint figures and LaTeX repair, updates the skill from this repository, and can use your own skill folder with its `materials/`.
+
+<p align="center"><img src="https://raw.githubusercontent.com/zzccppp/biwrite/master/docs/images/zh/assistant.jpg" alt="BiWrite 的写作助手" width="860"></p>
+
 research-builder 是一套给 Claude Code 与 Codex 用的科研辅助 skill。它把一位研究者在数据质量与数据准备方向写顶会与汇刊论文时形成的五阶段工作流程、写作纪律和检查工具整理成规则，让 AI 在研究者的主导下承担其中的工程实现、实验记录、排版、润色和核查。
 
 研究由你主导。选题、文献调研与精读、核心想法、baseline 的取舍、方法改动和论文里的每一个论断，都由你提出或确认。skill 按五个阶段推进，每个阶段结束时交出可核验的产物，等你确认后再进入下一阶段。所有数字只来自真实的实验记录，它不会也不应该替你编造结果。
 
 它适用于「提出方法，用理论与实验证明它更好」的实证型研究。你放进来的素材越多(你读过的文献、你的论文、你的图表与文字)，它的产出越贴近你的研究与风格。
 
-*English summary.* research-builder is a Claude Code and Codex skill set that assists a researcher through a five-stage workflow for empirical papers. The researcher chooses the topic, reads the literature, proposes the idea and approves every stage. The skill helps turn the researcher's surveyed related work into a runnable system, faithfully reproduced baselines, multi-seed experiments and a bilingual (English and Chinese) LaTeX paper whose numbers are filled in by a backfill script from the experiment records. It ships a writing manual with 32 AI-writing patterns adapted from [humanizer](https://github.com/blader/humanizer) for academic prose, checkers for LaTeX, Word and PowerPoint, a matplotlib module for print-size experiment figures, LaTeX table macros, a bilingual paper skeleton, rebuttal and grant-proposal guides, and an editable-PPT figure skill with a starter SVG icon set. The documents are written in Chinese.
+*English summary.* research-builder is a Claude Code and Codex skill set that assists a researcher through a five-stage workflow for empirical papers. The researcher chooses the topic, reads the literature, proposes the idea and approves every stage. The skill helps turn the researcher's surveyed related work into a runnable system, faithfully reproduced baselines, multi-seed experiments and a bilingual (English and Chinese) LaTeX paper whose numbers are filled in by a backfill script from the experiment records. It ships a writing manual with 32 AI-writing patterns adapted from [humanizer](https://github.com/blader/humanizer) for academic prose, checkers for LaTeX, Word and PowerPoint, a matplotlib module for print-size experiment figures, LaTeX table macros, a bilingual paper skeleton, rebuttal and grant-proposal guides, and an editable-PPT figure skill with a starter SVG icon set. The documents are written in Chinese. Its desktop editor, [BiWrite](https://github.com/zzccppp/biwrite), applies the same rules while you write a bilingual paper by hand.
 
 ## 能做什么
 
@@ -23,6 +30,7 @@ research-builder 是一套给 Claude Code 与 Codex 用的科研辅助 skill。�
 | 学术插图 | 独立的 `paper-figure-pptx` 技能，做可编辑的动机图、系统图与本子图，带 16 个自绘 SVG 入门图标 |
 | 模板 | 中英镜像的 LaTeX 骨架、镜像核对脚本、数字回填脚本、rebuttal 模板 |
 | 调研 | 独立的 `paper-survey` 技能，优先抓 arXiv 的 LaTeX 源与 HTML，按权威与开源筛选 |
+| 图形界面 | [BiWrite](https://github.com/zzccppp/biwrite) 桌面编辑器，中英双语逐段对照写作，LaTeX 实时编译预览，写作助手按本 skill 的规则润色、仿写、画图与修复 LaTeX |
 
 ## 快速开始
 
