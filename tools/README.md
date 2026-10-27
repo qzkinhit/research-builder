@@ -7,6 +7,9 @@
 | `docx_deai.py` | 在 Word 稿里就地替换生硬词、元话术、分号和花引号，保留格式，默认只预演 | python-docx |
 | `build_docx.py` | 把 Markdown 章节汇编成带原生 OMML 公式的 Word 稿 | python-docx、latex2mathml、mathml2omml、lxml |
 | `docx_layout_check.py` | 生成后的 docx 排版体检，查表格单元格首行缩进、标题居中、参考文献编号 | 标准库 |
+| `layout_diff.py` | 比对同一篇双栏稿两次编译的版面，逐页逐栏比较全部行的纵坐标、末行和最大空隙，用于确认改字没有挪动浮动体或撑开空白 | 标准库，poppler 的 pdftotext |
+| `acronym_check.py` | 列出从没解释也没引用过的缩写，以及只在后文才解释的缩写，大同行可读性检查用 | 标准库 |
+| `abstract_words.py` | 展开数字宏后数摘要字数，对照投稿上限 | 标准库 |
 | `server_plan_template.md` | 只剩大规模实验时的交接三件套模板 | |
 | `test_pptx_skill_install.py` | 安装脚本与 PPT 技能素材的回归测试 | 标准库 |
 
@@ -21,6 +24,10 @@ python tools/docx_deai.py 稿件.docx                         # 预演，确认�
 
 venv/bin/python tools/build_docx.py --sections sections/ --meta meta.json --out 论文稿.docx --toc
 python tools/docx_layout_check.py 论文稿.docx
+
+python tools/layout_diff.py 改前.pdf 改后.pdf               # 逐栏一致才退出码为 0
+python tools/acronym_check.py main.tex                      # never 一栏要逐个处理
+python tools/abstract_words.py main.tex --limit 250
 ```
 
 `build_docx.py` 的 `meta.json` 含 `title_zh`、`title_en`、可选的 `subtitle`、`references`(字符串列表)和 `glossary`(含 en、zh、def 的对象列表)。`--template` 给出期刊或学校的 docx 模板时继承其页面、网格与样式，不给时生成带行网格的 A4 模板。`--figs` 是一个 JSON，键为章节文件名，值为图片路径与图注。

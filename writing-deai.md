@@ -348,6 +348,24 @@
 
 **问题。** 为了凑页数把句子压密，术语、符号和缩写没有交代就使用。压缩篇幅的规则见 `writing-playbook.md` 第 4 节。
 
+**观察点。** 下面五种写法最常见，合作者或外部模型为省字数改稿时尤其多。
+
+- 斜杠并列几个量，读者要自己把前后两串一一对上，例如「skip/merge/dedup at 0/0.5/1」。
+- 分号串起的代号清单，例如「B1–B3, 1%–5% labels; S, random seeds; T1/T2, replacement blockers」。
+- 连字符堆出的名词串，例如「zero-cost fallback cluster」「highest-score pair」「seen-source recall」。
+- 无生命的主语执行动作，例如「Paired batches measure the shift」。这也落在第 27 条。
+- 只为一句话引入的新符号，尤其和上文已经用过的字母撞车。
+
+**改法。** 给每个代号一个动词，用文字写定义，能搬用作者原稿里打磨过的句子就搬用。
+
+> Before: (e) Recall under changed budgets: B1–B3, 1%–5% labels; S, random seeds; T1/T2, replacement blockers.
+>
+> After: (e) Recall under changed budgets. B1 to B3 label 1% to 5% of the pairs, S draws the seed pairs at random, and T1 and T2 replace the blocker.
+
+> Before: 令 $K(X)$ 收集批次 $X$ 的块键，不比较相似度；记 $r$ 的键为 $k$，若 $k\in K(X_0)$ 则 $r$ 为背景冲突。
+>
+> After: 若批次中至少有两条记录共享某个块键，则称这个键在该批次中冲突。一条记录的块键在基准批次中也冲突时，它是背景冲突。
+
 ## 5. 何时不改
 
 每个模式描述的是一种默认选择，人也可能故意这样写。
