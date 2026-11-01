@@ -9,7 +9,9 @@
 | `docx_layout_check.py` | 生成后的 docx 排版体检，查表格单元格首行缩进、标题居中、参考文献编号 | 标准库 |
 | `layout_diff.py` | 比对同一篇双栏稿两次编译的版面，逐页逐栏比较全部行的纵坐标、末行和最大空隙，用于确认改字没有挪动浮动体或撑开空白 | 标准库，poppler 的 pdftotext |
 | `acronym_check.py` | 列出从没解释也没引用过的缩写，以及只在后文才解释的缩写，大同行可读性检查用 | 标准库 |
-| `abstract_words.py` | 展开数字宏后数摘要字数，对照投稿上限 | 标准库 |
+| `abstract_words.py` | 展开数字宏后数摘要字数，对照投稿上限。`--plain` 输出投稿系统用的纯文本摘要，`--compare` 与系统里已有的版本逐词比对 | 标准库 |
+| `page_fit.py` | 页数卡在上限时查固定点：参考文献起始页、大表所在页、各栏栏底、指定标题上方的空隙、正文末页末行 | 标准库，poppler 的 pdftotext |
+| `short_ends.py` | 列出末行很短、值得试 `\looseness=-1` 的段落 | 标准库，poppler 的 pdftotext |
 | `server_plan_template.md` | 只剩大规模实验时的交接三件套模板 | |
 | `test_pptx_skill_install.py` | 安装脚本与 PPT 技能素材的回归测试 | 标准库 |
 
@@ -28,6 +30,10 @@ python tools/docx_layout_check.py 论文稿.docx
 python tools/layout_diff.py 改前.pdf 改后.pdf               # 逐栏一致才退出码为 0
 python tools/acronym_check.py main.tex                      # never 一栏要逐个处理
 python tools/abstract_words.py main.tex --limit 250
+python tools/abstract_words.py main.tex --plain > abstract.txt      # 贴进投稿系统的纯文本
+python tools/abstract_words.py main.tex --compare submitted.txt     # 与系统里的版本逐词比对
+python tools/page_fit.py paper.pdf --heading "PROBLEM STATEMENT" --captions "Table 1,Table 4" --last-body-page 12
+python tools/short_ends.py paper.pdf --pages 3-5                    # 试 \looseness=-1 之前先列候选
 ```
 
 `build_docx.py` 的 `meta.json` 含 `title_zh`、`title_en`、可选的 `subtitle`、`references`(字符串列表)和 `glossary`(含 en、zh、def 的对象列表)。`--template` 给出期刊或学校的 docx 模板时继承其页面、网格与样式，不给时生成带行网格的 A4 模板。`--figs` 是一个 JSON，键为章节文件名，值为图片路径与图注。

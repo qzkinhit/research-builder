@@ -10,8 +10,17 @@ edit to the abstract, an edit that shortens one sentence is often made to meet
 the limit, and undoing it silently breaks the limit again.
 
     python tools/abstract_words.py main.tex --limit 250
+
+Submission systems take the abstract as plain text, and the text pasted there
+drifts from the PDF when the abstract is edited late. --plain prints the expanded
+abstract as plain text for pasting, and --compare checks it word by word against
+the text that is already in the system.
+
+    python tools/abstract_words.py main.tex --plain > abstract.txt
+    python tools/abstract_words.py main.tex --compare submitted_abstract.txt
 """
 import argparse
+import difflib
 import re
 import sys
 
@@ -40,10 +49,28 @@ def expand(text, defs, rounds=5):
     return text
 
 
+MATH_WORDS = {'ln': 'ln', 'log': 'log', 'exp': 'exp', 'min': 'min', 'max': 'max', 'times': 'x', 'cdot': '*',
+              'le': '<=', 'leq': '<=', 'ge': '>=', 'geq': '>=', 'approx': '~', 'pm': '+/-'}
+
+
+def plain(text):
+    """The abstract as a submission system shows it: commands dropped, math kept as words."""
+    text = re.sub(r'\\[A-Za-z]+\s*=\s*-?[\d.]+(pt|em)?', ' ', text)          # \looseness=-1 and similar
+    text = re.sub(r'\\[td]?frac\{([^{}]*)\}\{([^{}]*)\}', r'(\1)/(\2)', text)
+    text = re.sub(r'\\([A-Za-z]+)', lambda m: ' ' + MATH_WORDS[m.group(1)] + ' ' if m.group(1) in MATH_WORDS
+                  else ' ', text)
+    text = text.replace('\\%', '%').replace('\\&', '&').replace('~', ' ').replace('--', '-')
+    text = re.sub(r'[{}$\\]', '', text)
+    text = re.sub(r'\s+([,.;:%)])', r'\1', ' '.join(text.split()))
+    return re.sub(r'\(\s+', '(', text)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
     ap.add_argument('tex')
     ap.add_argument('--limit', type=int, default=0)
+    ap.add_argument('--plain', action='store_true', help='print the abstract as plain text for a submission system')
+    ap.add_argument('--compare', default='', help='plain-text file to compare the abstract against, word by word')
     a = ap.parse_args()
     src = open(a.tex, encoding='utf-8').read()
     m = re.search(r'\\begin\{abstract\}(.*?)\\end\{abstract\}', src, re.S)
@@ -52,6 +79,20 @@ def main():
     text = re.sub(r'(?<!\\)%.*', '', m.group(1))
     text = expand(text, macros(src))
     text = re.sub(r'\\(cite|ref|label)\{[^}]*\}', '', text)
+    if a.plain or a.compare:
+        flat = plain(text)
+        if a.plain:
+            print(flat)
+        if a.compare:
+            old = ' '.join(open(a.compare, encoding='utf-8').read().split())
+            if old == flat:
+                print(f'identical to {a.compare} ({len(flat.split())} words)')
+            else:
+                diff = [d for d in difflib.ndiff(old.split(), flat.split()) if d[0] in '+-']
+                print(f'differs from {a.compare}: {len(old.split())} -> {len(flat.split())} words')
+                print(' '.join(diff[:60]))
+                sys.exit(1)
+        return
     text = re.sub(r'\\[A-Za-z]+\*?', ' ', text)
     text = re.sub(r'[{}$~]', ' ', text)
     n = len(text.split())

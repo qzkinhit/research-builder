@@ -96,12 +96,16 @@ space of size $m^{K}$. <How the space was sampled and what Figure 1(a) shows>.
 
 ## 3. 相关工作
 
-- 按方法族组织，每段以加粗的族名开头，写代表方法和它缺少的能力。
+- 方法族按实测的对比方法划分，只写比较过的方法。没有比较过的系统不点名，点了名审稿人就会问为什么不比。
+- 每段以加粗的族名开头，先用一两句讲清这一族依据什么评判记录、前提是什么，再引出代表方法和它的做法。
+- 相邻两族之间写一段过渡，讲清下一族为什么出现，例如研究重心从模型转到数据，或者单一信号只能检出部分错误。过渡不单列成一个族。
+- 综合多个信号的方法按综合方式再分，例如参数在选择前固定的，和按反馈调整的。信号可以都来自同一侧，也可以来自两侧，写法上不要让读者以为多信号就等于模型侧加数据侧。
+- 族的局限只写能核实的事实，例如原工作只在一种数据类型上评测过。不贬低别人来抬高自己，也不写「没有方法做到某事」这类绝对判断，差异交给能力表呈现。
+- 收尾段先回到引言提出的开放问题，用能核实的出处说明问题有多严重，再用一句话说本文怎么做，最后一句依次引出问题定义、方法和实验各节，让读者从引言一路读到定义不必回翻。
 - 段落顺序与能力表的族顺序、主表的行分组顺序相同。
-- 末尾放能力表，每个对比方法占一行，能力列选能把本文方法区分出来的性质。表的写法见 `../figure-style/tables/README.md`。
-- 每个族的最后一句写它缺什么，不写「与本文不同」。
+- 末尾放能力表，每个对比方法占一行。列怎么选、标记怎么核对见 `../writing-playbook.md` 第 12 节，表的写法见 `../figure-style/tables/README.md`。
 
-> `\textbf{Rule-based methods.} <Representative methods>~\cite{...} <what they do>. They <what they cannot do>, so <consequence for the problem>.`
+> `\textbf{Rule-based methods.} <What the family judges a record by, and its premise>. <Representative methods>~\cite{...} <what they do>, <a verifiable scope fact, such as the data type the original work evaluates>.`
 
 ## 4. 问题定义
 
