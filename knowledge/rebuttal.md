@@ -2,6 +2,8 @@
 
 本文件归纳数据库与机器学习顶会审稿回复(rebuttal、author feedback、revision plan)的结构和句式。可编译的模板在 `../templates/rebuttal/rebuttal_template.tex`。
 
+本文件只管篇幅固定的一次性回复，例如两页 PDF 的 author feedback 和随修订稿提交的修订说明。评论可以叠楼、可以补实验、可以上传修订稿的讨论期(OpenReview 式)用独立的 `paper-rebuttal` 技能，手册、句式、导出与核对脚本都在 `../paper-rebuttal/`，差异写在它的 `playbook.md` 第 0 节。
+
 ## 1. 版面结构
 
 1. 一段致谢加总述。说明各审稿人的共同肯定，给出审稿人与颜色的对应，说明新增实验放在哪里(例如匿名仓库)。

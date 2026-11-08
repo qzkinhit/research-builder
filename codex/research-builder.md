@@ -12,6 +12,7 @@ Codex 没有子进程，各阶段顺序做，或开多个 codex 会话并行。�
 | 写或改论文文字、表、图，润色，投稿前检查 | `writing-playbook.md` 与 `writing-deai.md` |
 | 论文骨架、本子、rebuttal、讲故事套路、图的版式 | `knowledge/` |
 | 中英镜像 LaTeX 骨架、数字回填、rebuttal 模板 | `templates/` |
+| 讨论期回复、修订稿标记、回复里的数字核对 | 独立的 `paper-rebuttal` 技能 |
 | 方法低于 baseline、基线数值异常、作业崩溃 | `diagnostic-playbook.md` |
 | 画实验图(折线、条形、雷达消融、动机图) | `figure-style/README.md`，模块 `figure-style/figstyle.py` |
 | 出 Word 稿，跑检查脚本 | `tools/README.md` |

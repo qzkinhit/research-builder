@@ -14,11 +14,13 @@ rsync -a --exclude '.git' --exclude 'dist' --exclude '__pycache__' --exclude '*.
   --exclude 'materials/**' \
   "$REPO/" "$STG/"
 
-# 2) exactly one SKILL.md: the nested survey skill becomes paper-survey/paper-survey.md
-[ -f "$STG/paper-survey/SKILL.md" ] && mv "$STG/paper-survey/SKILL.md" "$STG/paper-survey/paper-survey.md"
-grep -rlF "paper-survey/SKILL.md" "$STG" --include='*.md' 2>/dev/null | while read -r t; do
-  python3 -c "import sys;p=sys.argv[1];s=open(p,encoding='utf-8').read();open(p,'w',encoding='utf-8').write(s.replace('paper-survey/SKILL.md','paper-survey/paper-survey.md'))" "$t"
-done || true
+# 2) exactly one SKILL.md: each nested skill S becomes S/S.md
+for S in paper-survey paper-rebuttal; do
+  [ -f "$STG/$S/SKILL.md" ] && mv "$STG/$S/SKILL.md" "$STG/$S/$S.md"
+  grep -rlF "$S/SKILL.md" "$STG" --include='*.md' 2>/dev/null | while read -r t; do
+    python3 -c "import sys;p,n=sys.argv[1:3];s=open(p,encoding='utf-8').read();open(p,'w',encoding='utf-8').write(s.replace(n+'/SKILL.md',n+'/'+n+'.md'))" "$t" "$S"
+  done || true
+done
 
 # 3) package with research-builder/ as the root
 OUT="$REPO/dist/research-builder-web.zip"; rm -f "$OUT"

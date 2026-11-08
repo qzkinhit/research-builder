@@ -1,0 +1,174 @@
+%% revmark.sty  修订稿标记。实质改动红色，右侧页边按审稿人分色写出审稿意见编号。
+%%
+%% 用法
+%%   \usepackage{revmark}                放在模板与 hyperref 之后
+%%   \input{reviewers}                   \RevReviewer{编号}{颜色HTML}，与回复工程共用
+%%   \RevSetup{link color=2F3FAF}        可选，把文献、图表、节与 URL 的引用统一成一种颜色
+%%
+%% 命令
+%%   \rev{文字}{编号列表}      红色文字，文字首行旁写批注，用 \marginpar，用于正文段落
+%%   \revred{文字}             红色文字，不写批注，用于共用一条批注的段落和节标题
+%%   \revcap{文字}{编号列表}   红色文字，首行旁写批注，用 TikZ overlay，用于图题、表题与表格单元，
+%%                             这些地方不能用 \marginpar，需要编译两遍
+%%   \revnote{编号列表}        只写批注，用于已经是红色的公式或段落
+%%   \revfloatnote{编号列表}   只写批注，用于浮动体内
+%% 编号列表用逗号分隔，例如 R1-W1, R1-Q1。第一个连字符之前的部分是审稿人编号，决定颜色。
+%% 列表为空时不写批注。不在 reviewers.tex 中的编号保持修订红色，便于发现写错的编号。
+%%
+%% 选项 \RevSetup{...}
+%%   note width     批注宽度，默认 1.1in
+%%   note sep       批注与版心的间距，默认 0.12in
+%%   note push      相邻两条批注的最小间距，默认 4pt
+%%   note font      批注字号，默认 \small，出界或重叠时退到 \footnotesize
+%%   tag prefix     编号前缀，默认不加，例如 tag prefix=Rev. 时批注写成 Rev. R1-W1
+%%   change color   改动颜色，HTML 值，默认 FF0000
+%%   link color     引用颜色，HTML 值，默认不改
+%%   float xshift   浮动体内批注的横向修正，默认 0pt
+%%   float yshift   浮动体内批注的纵向修正，默认 0.72em
+%%   final          true 时去掉全部颜色与批注，文字保留，用于定稿
+%%
+%% 约定  不改版心、字号与行距。只调 \marginparwidth 等边注参数，免得被认为绕过页数限制。
+%%       批注只写编号。几个词的小改不标红、不写批注。
+\NeedsTeXFormat{LaTeX2e}[2020/10/01]
+\ProvidesExplPackage{revmark}{2026/11/08}{1.0}{Revision marks with reviewer tags in the margin}
+\RequirePackage{xcolor}
+\RequirePackage{tikz}
+
+\seq_new:N \g__revmark_ids_seq
+\seq_new:N \l__revmark_items_seq
+\tl_new:N \l__revmark_prefix_tl
+\bool_new:N \l__revmark_link_bool
+\definecolor{revmark@change}{HTML}{FF0000}
+
+\keys_define:nn { revmark }
+  {
+    note~width   .dim_set:N   = \l__revmark_width_dim,
+    note~width   .initial:n   = 1.1in,
+    note~sep     .dim_set:N   = \l__revmark_sep_dim,
+    note~sep     .initial:n   = 0.12in,
+    note~push    .dim_set:N   = \l__revmark_push_dim,
+    note~push    .initial:n   = 4pt,
+    note~font    .tl_set:N    = \l__revmark_font_tl,
+    note~font    .initial:n   = \small,
+    tag~prefix   .tl_set:N    = \l__revmark_tag_tl,
+    tag~prefix   .initial:n   = {},
+    float~xshift .dim_set:N   = \l__revmark_xshift_dim,
+    float~xshift .initial:n   = 0pt,
+    float~yshift .tl_set:N    = \l__revmark_yshift_tl,
+    float~yshift .initial:n   = 0.72em,
+    final        .bool_set:N  = \l__revmark_final_bool,
+    final        .default:n   = true,
+    final        .initial:n   = false,
+    change~color .code:n      = { \definecolor{revmark@change}{HTML}{#1} },
+    link~color   .code:n      =
+      {
+        \definecolor{revmark@link}{HTML}{#1}
+        \bool_set_true:N \l__revmark_link_bool
+      },
+  }
+
+\NewDocumentCommand \RevSetup { m } { \keys_set:nn { revmark } {#1} }
+
+%% \RevReviewer{编号}{颜色HTML}
+\NewDocumentCommand \RevReviewer { m m }
+  {
+    \seq_gput_right:Nn \g__revmark_ids_seq {#1}
+    \definecolor{revmark@#1}{HTML}{#2}
+  }
+
+\msg_new:nnn { revmark } { too-wide }
+  { The~margin~note~width~#1~exceeds~the~free~right~margin~#2.~Set~a~smaller~note~width. }
+
+%% 引用颜色在 hyperref 读完选项之后设置。边注参数在 begindocument 末尾设置，模板与 geometry 都已生效。
+\AddToHook { begindocument / before }
+  {
+    \bool_if:NT \l__revmark_link_bool
+      {
+        \cs_if_exist_use:NT \hypersetup
+          { { citecolor = revmark@link, linkcolor = revmark@link, urlcolor = revmark@link } }
+      }
+  }
+\AddToHook { begindocument / end }
+  {
+    \dim_set_eq:NN \marginparwidth \l__revmark_width_dim
+    \dim_set_eq:NN \marginparsep \l__revmark_sep_dim
+    \dim_set_eq:NN \marginparpush \l__revmark_push_dim
+    \dim_set:Nn \l_tmpa_dim { \paperwidth - 1in - \hoffset - \oddsidemargin - \textwidth - \marginparsep }
+    \dim_compare:nNnT { \marginparwidth } > { \l_tmpa_dim }
+      {
+        \bool_if:NF \l__revmark_final_bool
+          { \msg_warning:nnxx { revmark } { too-wide } { \dim_use:N \marginparwidth } { \dim_use:N \l_tmpa_dim } }
+      }
+  }
+
+%% 审稿人编号是第一个连字符之前的部分，未知编号的条目保持修订红色。
+%% 颜色只放在 \mbox 之内。若 \marginpar 的 vbox 以 \color 开头，首行的 whatsit 会使批注下移一行。
+\cs_new:Npn \__revmark_prefix:w #1 - #2 \q_stop {#1}
+\cs_new_protected:Npn \__revmark_item:n #1
+  {
+    \tl_set:Nx \l__revmark_prefix_tl { \__revmark_prefix:w #1 - \q_stop }
+    \mbox
+      {
+        \seq_if_in:NVTF \g__revmark_ids_seq \l__revmark_prefix_tl
+          { \color { revmark@ \l__revmark_prefix_tl } }
+          { \color { revmark@change } }
+        \tl_if_empty:NF \l__revmark_tag_tl { \l__revmark_tag_tl \c_space_tl }
+        #1
+      }
+    \par
+  }
+\cs_new_protected:Npn \__revmark_body:n #1
+  {
+    \seq_set_from_clist:Nn \l__revmark_items_seq {#1}
+    \raggedright \l__revmark_font_tl
+    \seq_map_function:NN \l__revmark_items_seq \__revmark_item:n
+  }
+\cs_new_protected:Npn \__revmark_margin:n #1
+  {
+    \tl_if_blank:nF {#1}
+      { \leavevmode \marginpar { \__revmark_body:n {#1} } }
+  }
+\cs_new_protected:Npn \__revmark_float:n #1
+  {
+    \tl_if_blank:nF {#1}
+      {
+        \leavevmode
+        \begin{tikzpicture}[remember~picture, overlay]
+          \node[anchor=north~west, inner~sep=0pt, outer~sep=0pt]
+            at ([xshift = 1in + \hoffset + \oddsidemargin + \textwidth + \marginparsep + \l__revmark_xshift_dim,
+                 yshift = \l__revmark_yshift_tl]
+                current~page.west~|-~0,0)
+            { \parbox[t]{\marginparwidth}{ \__revmark_body:n {#1} } };
+        \end{tikzpicture}
+      }
+  }
+
+\NewDocumentCommand \revnote { m }
+  { \bool_if:NF \l__revmark_final_bool { \__revmark_margin:n {#1} } }
+\NewDocumentCommand \revfloatnote { m }
+  { \bool_if:NF \l__revmark_final_bool { \__revmark_float:n {#1} } }
+\NewDocumentCommand \rev { +m m }
+  {
+    \bool_if:NTF \l__revmark_final_bool
+      {#1}
+      {
+        \leavevmode
+        \__revmark_margin:n {#2}
+        { \color { revmark@change } #1 }
+      }
+  }
+\NewDocumentCommand \revred { +m }
+  {
+    \bool_if:NTF \l__revmark_final_bool
+      {#1}
+      { \leavevmode { \color { revmark@change } #1 } }
+  }
+\NewDocumentCommand \revcap { +m m }
+  {
+    \bool_if:NTF \l__revmark_final_bool
+      {#1}
+      {
+        \__revmark_float:n {#2}
+        { \color { revmark@change } #1 }
+      }
+  }

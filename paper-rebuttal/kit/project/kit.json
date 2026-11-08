@@ -1,0 +1,25 @@
+{
+  "main": "rebuttal_main.tex",
+  "reviewers": "reviewers.tex",
+  "reviews_source": "source/reviews.md",
+  "reviews_tex": "reviews_bilingual.tex",
+  "comment_limit": 5000,
+  "general_title": "General response",
+  "reviewer_title": "Response to Reviewer {id}",
+  "outdir": "openreview",
+  "counts": "counts.tex",
+  "drafts": "drafts",
+  "markdown": ["templates/followup_after_upload.md", "templates/reminder_before_deadline.md"],
+  "revision_en": ["../revision/revmark_demo.tex"],
+  "revision_zh": [],
+  "terms": ["OurSys", "L-Boost", "L-Forest", "R-Block", "R-Match", "D1", "D2", "D3"],
+  "deliverables": {
+    "out": "deliverables",
+    "followup": "templates/followup_after_upload.md",
+    "reminder": "templates/reminder_before_deadline.md",
+    "copy": [
+      {"src": "rebuttal_main.pdf", "dst": "rebuttal_bilingual_authors_only.pdf"},
+      {"src": "../revision/revmark_demo.pdf", "dst": "revision_upload.pdf"}
+    ]
+  }
+}

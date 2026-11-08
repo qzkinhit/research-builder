@@ -1,0 +1,2 @@
+# Only the PDF part of scripts/check_margin_tags.py needs a third party package.
+pymupdf

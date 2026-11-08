@@ -74,7 +74,12 @@ echo "  materials: $(find "$DEST/materials" -type f ! -name 'README.md' ! -name 
 PS="$CL/skills/paper-survey"
 rm -rf "$PS" && cp -R "$SRC/paper-survey" "$PS" && chmod +x "$PS/tools/"*.sh 2>/dev/null || true
 echo "installed paper-survey  -> $PS"
+
+# 把 paper-rebuttal 部署成独立可发现 skill
+PR="$CL/skills/paper-rebuttal"
+rm -rf "$PR" && cp -R "$SRC/paper-rebuttal" "$PR"
+echo "installed paper-rebuttal -> $PR"
 install_pptx
 echo ""
-echo "用法: 「按 research-builder 启动」(科研、写论文、画图、润色) 或 「按 paper-survey 调研」(LaTeX 与 HTML 优先)"
+echo "用法: 「按 research-builder 启动」(科研、写论文、画图、润色)、「按 paper-survey 调研」(LaTeX 与 HTML 优先) 或 「按 paper-rebuttal 写讨论期回复」"
 echo "Codex 版见 $DEST/codex/README.md，完整说明见 $DEST/USAGE.md"

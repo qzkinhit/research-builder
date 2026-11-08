@@ -1,0 +1,46 @@
+%% reviews_bilingual.tex  审稿意见原文与中文译文。
+%% 由 tools/gen_reviews_tex.py 从 source/reviews.md 生成，之后只手改中文译文。
+%% 英文原文（第三个参数）必须与 source/reviews.md 逐字一致，make verify 会核对。
+%% 格式 \DefConcern{编号}{显示标签}{英文原文}{中文译文}
+
+%% ==================== R1 ====================
+\DefConcern{R1-Sum}{R1 摘要}%
+{The paper studies duplicate record detection under a labeling budget. OurSys chooses which candidate pairs to send for labeling and reports recall on three datasets.}%
+{本文研究标注预算下的重复记录检测。OurSys 选择把哪些候选记录对送去标注，并在三个数据集上报告召回率。}
+
+\DefConcern{R1-S1}{R1 优点 1}%
+{The budget constraint matches how labeling is paid for in practice.}%
+{预算约束符合实际中按标注量付费的情况。}
+
+\DefConcern{R1-S2}{R1 优点 2}%
+{The comparison covers rule-based and learning-based matchers.}%
+{比较覆盖了基于规则的与基于学习的匹配器。}
+
+\DefConcern{R1-W1}{R1-W1}%
+{Each dataset is evaluated on a single data split, so the gain over L-Boost cannot be separated from split variance.}%
+{每个数据集只在一个数据划分上评估，因此相对 L-Boost 的增益无法与划分带来的波动区分开。}
+
+\DefConcern{R1-W2}{R1-W2}%
+{The selection score of Section 3.2 is described only in words, which makes the method hard to reproduce.}%
+{第 3.2 节的选择分数只用文字描述，方法难以复现。}
+
+\DefConcern{R1-Q1}{R1-Q1}%
+{What are the averages and paired intervals when several data splits are used?}%
+{能否报告多个数据划分上的均值与配对区间？}
+
+%% ==================== R2 ====================
+\DefConcern{R2-Sum}{R2 摘要}%
+{OurSys is a budgeted labeling policy for duplicate detection, compared with four matchers on three datasets.}%
+{OurSys 是面向重复检测的预算内标注策略，在三个数据集上与四个匹配器比较。}
+
+\DefConcern{R2-S1}{R2 优点 1}%
+{The problem is practical and the evaluation is easy to follow.}%
+{问题具有实用价值，评估容易读懂。}
+
+\DefConcern{R2-W1}{R2-W1}%
+{The evaluation fixes the labeling budget at 5\% of the candidate pairs, and it is unclear how the gain changes when the budget is smaller.}%
+{评估把标注预算固定为候选记录对的 5\%，预算更小时增益如何变化并不清楚。}
+
+\DefConcern{R2-Q1}{R2-Q1}%
+{How does the running time of OurSys compare with the baselines at the same labeling budget?}%
+{在相同标注预算下，OurSys 的运行时间与对比方法相比如何？}

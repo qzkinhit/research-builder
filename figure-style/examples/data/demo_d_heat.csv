@@ -1,5 +1,5 @@
 # DEMONSTRATION DATA. Synthetic values for the figure-style examples, not a result of any paper.
-dataset,rho,vs_nofix_pp,vs_prior_pp
+dataset,rho,vs_uncleaned_pp,vs_prior_pp
 D1,0,0.1,1.6
 D1,0.1,2.6,0
 D1,0.2,3.1,-0.4

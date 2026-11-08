@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# 将本仓库的 research-builder、paper-survey 与独立 paper-figure-pptx 同步给 Codex。
+# 将本仓库的 research-builder、paper-survey、paper-rebuttal 与独立 paper-figure-pptx 同步给 Codex。
 # 用法：bash codex/sync_codex_skills.sh [--pptx-only] [--target-root DIRECTORY]
 # 做的事：
-#   1. 旧的两个 skill 目录先备份到 ~/.codex/skill_backups/<时间戳>/(放在 skills 目录之外，免得被重复加载)
+#   1. 旧的三个 skill 目录先备份到 ~/.codex/skill_backups/<时间戳>/(放在 skills 目录之外，免得被重复加载)
 #   2. 仓库内容镜像到 skill 目录，保留各自的 agents/openai.yaml
 #   3. SKILL.md 换成 Codex 版：description 裁到 1024 字符以内，加一段 Codex 适配说明，路径 ~/.claude/skills 改成 ~/.codex/skills
 set -euo pipefail
@@ -89,25 +89,30 @@ if [ "$PPTX_ONLY" -eq 1 ]; then
 fi
 RB="$CX/skills/research-builder"
 PS="$CX/skills/paper-survey"
+PR="$CX/skills/paper-rebuttal"
 mkdir -p "$CX/skill_backups"
 BK="$(mktemp -d "$CX/skill_backups/$(date +%Y%m%d_%H%M%S).XXXXXX")"
-mkdir -p "$RB" "$PS"
+mkdir -p "$RB" "$PS" "$PR"
 cp -R "$RB" "$BK/" 2>/dev/null || true
 cp -R "$PS" "$BK/" 2>/dev/null || true
+cp -R "$PR" "$BK/" 2>/dev/null || true
 
 COMMON_EXCLUDES=(--exclude '.git' --exclude '.DS_Store' --exclude '__pycache__' --filter 'P agents/')
 rsync -a --delete "${COMMON_EXCLUDES[@]}" \
-  --exclude 'dist' --exclude 'codex' --exclude 'paper-survey' --exclude 'paper-figure-pptx' --exclude 'researched_papers/*.pdf' \
+  --exclude 'dist' --exclude 'codex' --exclude 'paper-survey' --exclude 'paper-rebuttal' --exclude 'paper-figure-pptx' --exclude 'researched_papers/*.pdf' \
   "$REPO/" "$RB/"
 rsync -a --delete "${COMMON_EXCLUDES[@]}" "$REPO/paper-survey/" "$PS/"
+rsync -a --delete "${COMMON_EXCLUDES[@]}" "$REPO/paper-rebuttal/" "$PR/"
 chmod +x "$PS/tools/"*.sh 2>/dev/null || true
 
 RB_DESC='在研究者主导下，按对齐、搭系统、忠实 baseline、实验、诊断改方法、回填论文的五阶段，把研究者调研并读过的文献、研究方向和自己的素材推进成能跑的系统、忠实复现的 baseline、严谨的实验和中英文论文，并按研究者已发表论文的风格写作、排实验表、画实验图、写本子与 rebuttal、去 AI 腔润色、做投稿前检查。每阶段结束等研究者确认。用户说「按 research-builder 的五阶段」「推进我这篇论文」「复现这些 baseline」「回填实验章、排主表、画实验图」「润色、去 AI 味、投稿前检查」「写本子」「写 rebuttal」时使用。'
 PS_DESC='LaTeX/HTML 优先的论文调研工作流。Use when the user wants to survey a research topic, find baselines and related work, prioritize arXiv source or ar5iv HTML over PDF, screen papers by CCF-A authority and open-source availability, download papers into researched_papers, produce survey.md, or continue into research-builder for writing.'
+PR_DESC='讨论期审稿回复与修订稿工作流。Use when the user wants to write a rebuttal, an author response or a reply to reviewers, export OpenReview comments from a bilingual LaTeX file, mark a revised PDF with reviewer-colored margin notes, or check the numbers in a response at full precision. 研究者主导，发帖与上传由作者本人完成。'
+NOTE_PR='> **Codex 版说明**：本目录由 research-builder 仓库的 `codex/sync_codex_skills.sh` 生成，不要在这里手改。Codex 没有子进程，手册里派给子代理的步骤改为按顺序执行，或开多个 codex 会话手动并行。文中提到的 `research-builder` 文件在 `../research-builder/`。'
 NOTE_RB='> **Codex 版说明**：本目录由 research-builder 仓库的 `codex/sync_codex_skills.sh` 生成，不要在这里手改。Codex 没有 Claude Code 的 subagent 与 Workflow，文中「派给 subagent」「并行派出」的步骤改为按顺序执行，或开多个 codex 会话手动并行。素材、手册与脚本路径都相对本目录，即 `~/.codex/skills/research-builder/`。'
 NOTE_PS='> **Codex 版说明**：本目录由 research-builder 仓库的 `codex/sync_codex_skills.sh` 生成，不要在这里手改。Codex 没有子进程，「多子进程并行」的检索改为按顺序执行，或开多个 codex 会话手动并行。下载脚本在本目录的 `tools/fetch_arxiv.sh`。'
 
-python3 - "$RB/SKILL.md" "$RB_DESC" "$NOTE_RB" "$PS/SKILL.md" "$PS_DESC" "$NOTE_PS" <<'PY'
+python3 - "$RB/SKILL.md" "$RB_DESC" "$NOTE_RB" "$PS/SKILL.md" "$PS_DESC" "$NOTE_PS" "$PR/SKILL.md" "$PR_DESC" "$NOTE_PR" <<'PY'
 import sys
 def codexify(path, desc, note):
     L = open(path, encoding='utf-8').read().splitlines()
@@ -123,12 +128,13 @@ def codexify(path, desc, note):
     open(path, 'w', encoding='utf-8').write('\n'.join(L) + '\n')
 codexify(sys.argv[1], sys.argv[2], sys.argv[3])
 codexify(sys.argv[4], sys.argv[5], sys.argv[6])
-for d in (sys.argv[2], sys.argv[5]):
+codexify(sys.argv[7], sys.argv[8], sys.argv[9])
+for d in (sys.argv[2], sys.argv[5], sys.argv[8]):
     assert len(d) <= 1024, len(d)
 PY
 
 # 文本里的 Claude 路径改成 Codex 路径
-grep -rlF '.claude/skills/' "$RB" "$PS" --include='*.md' --include='*.py' --include='*.sh' 2>/dev/null | while read -r f; do
+grep -rlF '.claude/skills/' "$RB" "$PS" "$PR" --include='*.md' --include='*.py' --include='*.sh' 2>/dev/null | while read -r f; do
   python3 -c "import sys;p=sys.argv[1];s=open(p,encoding='utf-8').read();open(p,'w',encoding='utf-8').write(s.replace('.claude/skills/','.codex/skills/'))" "$f"
 done
 
@@ -148,8 +154,17 @@ interface:
 YAML
 }
 
+[ -f "$PR/agents/openai.yaml" ] || { mkdir -p "$PR/agents"; cat > "$PR/agents/openai.yaml" <<'YAML'
+interface:
+  display_name: "Paper Rebuttal"
+  short_description: "讨论期审稿回复、修订稿标记与数字核对"
+  default_prompt: "Use $paper-rebuttal to draft and check my discussion-period replies and mark my revised PDF. I decide the content and post the replies myself."
+YAML
+}
+
 install_pptx
 
 echo "synced research-builder -> $RB"
 echo "synced paper-survey     -> $PS"
+echo "synced paper-rebuttal   -> $PR"
 echo "backup of the previous versions -> $BK"

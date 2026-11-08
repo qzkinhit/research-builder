@@ -1,0 +1,349 @@
+%% rebuttal_preamble.tex  版式与命令定义，一般不需要改。
+%% 由主文件读入。编译 xelatex（文档类 ctexart，fontset=none）。
+
+%% ---- 页面 ------------------------------------------------------------------
+\usepackage[a4paper,margin=14mm,top=13mm,bottom=15mm]{geometry}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\usepackage[most]{tcolorbox}
+\usepackage{booktabs,array,tabularx,enumitem,newunicodechar,adjustbox}
+\usepackage[hidelinks,bookmarksnumbered]{hyperref}
+\setlist{nosep,leftmargin=1.6em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\linespread{1.08}
+\ctexset{
+  section={format=\large\bfseries\raggedright,beforeskip=8pt,afterskip=4pt},
+  subsection={format=\normalsize\bfseries\raggedright,beforeskip=6pt,afterskip=3pt},
+}
+
+%% ---- 字体 ------------------------------------------------------------------
+%% 西文优先用 TeX Gyre Termes 与 Heros。中文字体依次回退到 Fandol、Songti SC、SimSun、Noto。
+\IfFontExistsTF{texgyretermes-regular.otf}{%
+  \setmainfont{texgyretermes}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,
+    ItalicFont=*-italic,BoldItalicFont=*-bolditalic]%
+  \setsansfont{texgyreheros}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,
+    ItalicFont=*-italic,BoldItalicFont=*-bolditalic]%
+}{}
+\IfFontExistsTF{FandolSong-Regular.otf}{%
+  \setCJKmainfont{FandolSong-Regular.otf}[BoldFont=FandolSong-Bold.otf,ItalicFont=FandolKai-Regular.otf]%
+  \setCJKsansfont{FandolHei-Regular.otf}[BoldFont=FandolHei-Bold.otf]%
+  \setCJKmonofont{FandolFang-Regular.otf}%
+}{%
+  \IfFontExistsTF{Songti SC}{%
+    \setCJKmainfont{Songti SC}[BoldFont=Heiti SC,ItalicFont=Kaiti SC]%
+    \setCJKsansfont{Heiti SC}%
+  }{%
+    \IfFontExistsTF{SimSun}{%
+      \setCJKmainfont{SimSun}[BoldFont=SimHei,ItalicFont=KaiTi]\setCJKsansfont{SimHei}%
+    }{%
+      \setCJKmainfont{Noto Serif CJK SC}\setCJKsansfont{Noto Sans CJK SC}%
+    }%
+  }%
+}
+%% 审稿原文里的希腊字母用数学字体显示，源文本保持原字符，缺字时在此增补。
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+
+%% ---- 颜色 ------------------------------------------------------------------
+\definecolor{rbgray}{HTML}{4D4D4D}
+\colorlet{rbcur}{rbgray}
+
+%% ---- 审稿人信息与字符统计 -------------------------------------------------
+\ExplSyntaxOn
+\prop_new:N \g_rb_meta_prop
+\prop_new:N \g_rb_en_prop
+\prop_new:N \g_rb_zh_prop
+\prop_new:N \g_rb_label_prop
+\prop_new:N \g_rb_count_prop
+\seq_new:N \g_rb_reviewers_seq
+\seq_new:N \g_rb_fields_seq
+\tl_new:N \l_rb_rows_tl
+\tl_new:N \l_rb_head_tl
+\tl_new:N \g_rb_cursec_tl   % 当前节（general 或审稿人编号）
+\int_new:N \g_rb_part_int   % 当前节内的评论序号，由 \CommentBreak 递增
+\int_new:N \l_rb_idx_int
+
+%% \RevReviewer{编号}{颜色HTML} 写在 reviewers.tex 中，回复工程与修订稿共用这一份。
+\NewDocumentCommand \RevReviewer { m m }
+  {
+    \seq_gput_right:Nn \g_rb_reviewers_seq {#1}
+    \definecolor{rb@#1}{HTML}{#2}
+  }
+%% \SetScoreFields{Rating, Confidence, ...} 声明会议评分表的栏目，按审稿表填写。
+\NewDocumentCommand \SetScoreFields { m }
+  { \seq_gset_from_clist:Nn \g_rb_fields_seq {#1} }
+%% \DefScores{编号}{值1, 值2, ...} 的顺序与 \SetScoreFields 相同。值里有逗号时用花括号括起来。
+\NewDocumentCommand \DefScores { m m }
+  {
+    \int_zero:N \l_rb_idx_int
+    \clist_map_inline:nn {#2}
+      {
+        \int_incr:N \l_rb_idx_int
+        \prop_gput:Nxn \g_rb_meta_prop { #1/\int_use:N \l_rb_idx_int } {##1}
+      }
+  }
+
+%% \DefConcern{意见编号}{显示标签}{英文原文}{中文译文}，见 reviews_bilingual.tex
+\NewDocumentCommand \DefConcern { m m +m +m }
+  {
+    \prop_gput:Nnn \g_rb_label_prop {#1} {#2}
+    \prop_gput:Nnn \g_rb_en_prop {#1} {#3}
+    \prop_gput:Nnn \g_rb_zh_prop {#1} {#4}
+  }
+
+%% counts.tex 中的 \RBsetcount{文件名}{字符数}{上限}{未回填项}{空回复块}。
+%% 文件名是节编号（如 R2），节内用了 \CommentBreak 时是 <节>_part<k>（如 R1_part2）。
+%% \RBsetparts{节}{评论条数} 只对用了 \CommentBreak 的节写出。
+\NewDocumentCommand \RBsetparts { m m }
+  { \prop_gput:Nnn \g_rb_count_prop {#1/parts} {#2} }
+\NewDocumentCommand \RBsetcount { m m m m m }
+  {
+    \prop_gput:Nnn \g_rb_count_prop {#1/n} {#2}
+    \prop_gput:Nnn \g_rb_count_prop {#1/limit} {#3}
+    \prop_gput:Nnn \g_rb_count_prop {#1/pending} {#4}
+    \prop_gput:Nnn \g_rb_count_prop {#1/tbd} {#5}
+  }
+%% 只显示“字符数 / 上限”，超限标红
+\NewDocumentCommand \RBcountshort { m }
+  {
+    \prop_if_in:NnTF \g_rb_count_prop {#1/n}
+      {
+        \int_compare:nNnTF { \prop_item:Nn \g_rb_count_prop {#1/n} }
+            > { \prop_item:Nn \g_rb_count_prop {#1/limit} }
+          { \textcolor{red}{\textbf{\prop_item:Nn \g_rb_count_prop {#1/n}}} }
+          { \textbf{\prop_item:Nn \g_rb_count_prop {#1/n}} }
+        \,/\,\prop_item:Nn \g_rb_count_prop {#1/limit}
+      }
+      { \textcolor{red}{未统计} }
+  }
+%% 完整统计行，#1 是行首文字，#2 是 counts.tex 中的文件名
+\cs_new_protected:Npn \rb_count_line:nn #1#2
+  {
+    \prop_if_in:NnTF \g_rb_count_prop {#2/n}
+      {
+        #1~\RBcountshort{#2}
+        \int_compare:nNnT { \prop_item:Nn \g_rb_count_prop {#2/n} }
+            > { \prop_item:Nn \g_rb_count_prop {#2/limit} }
+          { \textcolor{red}{（超出上限）} }
+        \quad 未回填数字~
+        \int_compare:nNnTF { \prop_item:Nn \g_rb_count_prop {#2/pending} } > { 0 }
+          { \textcolor{red}{\prop_item:Nn \g_rb_count_prop {#2/pending}} }
+          { 0 }
+        ~处 \quad 待填写回复块~
+        \int_compare:nNnTF { \prop_item:Nn \g_rb_count_prop {#2/tbd} } > { 0 }
+          { \textcolor{red}{\prop_item:Nn \g_rb_count_prop {#2/tbd}} }
+          { 0 }
+        ~个
+      }
+      { \textcolor{red}{字符数未统计，先运行~make~check} }
+  }
+\NewDocumentCommand \RBcount { m } { \rb_count_line:nn {英文回复字符数} {#1} }
+%% 用了 \CommentBreak 的节，第 k 条评论的统计行，#1 节，#2 序号
+\cs_new_protected:Npn \rb_part_line:nn #1#2
+  {
+    \prop_if_in:NnTF \g_rb_count_prop {#1/parts}
+      {
+        第~#2~条评论（共~\prop_item:Nn \g_rb_count_prop {#1/parts}~条，导出为~#1\textunderscore{}part#2.md）\quad
+        \rb_count_line:nn {本条} {#1_part#2}
+      }
+      { \textcolor{red}{counts.tex~中没有本节的分条统计，先运行~make~check} }
+  }
+%% 节标题下的统计行。分条的节显示第 1 条，不分条的节显示全节。
+\NewDocumentCommand \RBsectioncount { m }
+  {
+    \prop_if_in:NnTF \g_rb_count_prop {#1/parts}
+      { \rb_part_line:nn {#1} {1} }
+      { \RBcount{#1} }
+  }
+%% 评分一览表的字符数格。分条的节逐条列出。
+\NewDocumentCommand \RBcountcell { m }
+  {
+    \prop_if_in:NnTF \g_rb_count_prop {#1/parts}
+      {
+        \int_step_inline:nn { \prop_item:Nn \g_rb_count_prop {#1/parts} }
+          {
+            \int_compare:nNnT {##1} > {1} { ，}
+            第~##1~条~\RBcountshort{#1_part##1}
+          }
+      }
+      { \RBcountshort{#1} }
+  }
+
+%% ---- 意见显示 ----------------------------------------------------------------
+\newtcolorbox{rbconcernbox}{enhanced,sidebyside,sidebyside~align=top~seam,
+  sidebyside~gap=7pt,lefthand~ratio=0.5,colback=rbcur!4,colframe=rbcur!40,
+  boxrule=0.4pt,arc=1pt,left=4pt,right=4pt,top=2pt,bottom=2pt,
+  before~skip=3pt,after~skip=3pt,fontupper=\small,fontlower=\small,
+  segmentation~style={solid,rbcur!30},
+  before~upper={\setlength{\parskip}{3pt}},before~lower={\setlength{\parskip}{3pt}}}
+\NewDocumentCommand \rbtag { m } { {\sffamily\bfseries\footnotesize\color{rbcur}#1}\enspace }
+
+\NewDocumentCommand \ShowConcern { m }
+  {
+    \prop_if_in:NnTF \g_rb_en_prop {#1}
+      {
+        \begin{rbconcernbox}
+          \rbtag{\prop_item:Nn \g_rb_label_prop {#1}~原文}
+          \prop_item:Nn \g_rb_en_prop {#1}
+          \tcblower
+          \rbtag{\prop_item:Nn \g_rb_label_prop {#1}~译文}
+          \prop_item:Nn \g_rb_zh_prop {#1}
+        \end{rbconcernbox}
+      }
+      { \par\textcolor{red}{\textbf{未定义的意见编号~#1}}\par }
+  }
+
+%% rbgroup  一组意见加一个合并回复。
+%% \begin{rbgroup}[可选标题]{编号1, 编号2, ...} 先排出所列意见的原文与译文，
+%% 环境内再写 responseen 与 responsezh 两个回复环境。编号列表可以为空。
+%% 带星号的 rbgroup* 只在组标题中列出编号，不重复排出原文与译文（用于总回复）。
+\NewDocumentEnvironment { rbgroup } { s o m }
+  {
+    \par\addvspace{5pt}
+    \noindent{\color{rbcur}\rule[0.5ex]{1.2em}{0.8pt}}\enspace
+    {\sffamily\bfseries\small\color{rbcur}
+      \IfValueT{#2}{#2\quad}
+      \tl_if_blank:nF {#3} { 意见~\clist_use:nn {#3} {,~} } }
+    \par\nobreak
+    \IfBooleanF {#1} { \clist_map_inline:nn {#3} { \ShowConcern{##1} } }
+  }
+  { \par\addvspace{4pt} }
+
+%% ---- 回复环境 ----------------------------------------------------------------
+%% responseen 的内容由 tools/export_openreview.py 导出到 OpenReview，
+%% 只能使用导出脚本支持的命令（见 README.md）。responsezh 不导出。
+\tcbset{rbresp/.style={enhanced,breakable,boxrule=0.5pt,arc=1pt,
+  left=5pt,right=5pt,top=3pt,bottom=3pt,before~skip=3pt,after~skip=3pt,
+  fonttitle=\sffamily\bfseries\footnotesize,toptitle=0.6pt,bottomtitle=0.6pt,
+  fontupper=\small,before~upper={\setlength{\parskip}{3pt}}}}
+\newtcolorbox{responseen}{rbresp,colframe=rbcur,colbacktitle=rbcur,coltitle=white,
+  colback=white,title={我方回复~英文~（导出到~OpenReview）}}
+\newtcolorbox{responsezh}{rbresp,colframe=rbcur!45,colbacktitle=rbcur!12,coltitle=rbcur!80!black,
+  colback=rbcur!2,title={我方回复~中文对照~（不导出）}}
+
+%% 回复中可用的命令
+\NewDocumentCommand \pending { m } { \textcolor{red}{\textbf{[待回填~#1]}} }
+\NewDocumentCommand \respTBD { } { {\color{gray}\itshape（待填写）} }
+\NewDocumentCommand \rhead { m } { \par\addvspace{2pt}\noindent\textbf{#1}\par\nobreak }
+%% rtable  简单表格，导出为 Markdown 管道表。列格式只用 l c r，第一行是表头。
+%% 列格式为 lll 的表（每位审稿人第 1 条的一览表）在 PDF 中按行宽折行，三列宽度比为 0.62 : 1.38 : 1，
+%% 并在 \par 之后加 \nopagebreak[4]，使表前一段（表题）的末行与表格排在同一页。
+%% 其余列格式整表缩放到行宽。导出的 Markdown 不受影响。
+\NewDocumentEnvironment { rtable } { m +b }
+  {
+    \par
+    \str_if_eq:nnT {#1} { lll } { \nopagebreak[4] }
+    \addvspace{3pt}\begingroup\centering\small
+    \str_if_eq:nnTF {#1} { lll }
+      { \rb_rtable_wrap:n {#2} }
+      { \begin{adjustbox}{max~width=\linewidth}\begin{tabular}{#1}\toprule #2 \crcr\bottomrule\end{tabular}\end{adjustbox} }
+    \par\endgroup\addvspace{3pt}
+  }
+  { }
+\cs_new_protected:Npn \rb_rtable_wrap:n #1
+  {
+    \begin{tabularx} { \linewidth }
+      { @{} >{\raggedright\arraybackslash\hsize=0.62\hsize}X
+            >{\raggedright\arraybackslash\hsize=1.38\hsize}X
+            >{\raggedright\arraybackslash}X @{} }
+    \toprule #1 \crcr\bottomrule
+    \end{tabularx}
+  }
+
+%% ---- 节 ------------------------------------------------------------------------
+\NewDocumentCommand \GeneralSection { }
+  {
+    \colorlet{rbcur}{rbgray}
+    \tl_gset:Nn \g_rb_cursec_tl {general}
+    \int_gset:Nn \g_rb_part_int {1}
+    \section*{\color{rbgray}General~Response~（全体审稿人可见的总回复）}
+    \pdfbookmark[1]{General~Response}{rb-general}
+    {\small \RBsectioncount{general}}\par
+  }
+\NewDocumentCommand \ReviewerSection { m }
+  {
+    \clearpage
+    \colorlet{rbcur}{rb@#1}
+    \tl_gset:Nn \g_rb_cursec_tl {#1}
+    \int_gset:Nn \g_rb_part_int {1}
+    \section*{\color{rb@#1}审稿人~#1}
+    \pdfbookmark[1]{Reviewer~#1}{rb-#1}
+    {\small
+      \seq_map_indexed_inline:Nn \g_rb_fields_seq
+        { ##2~\prop_item:Nn \g_rb_meta_prop { #1/##1 } \quad }
+      \par
+      \RBsectioncount{#1}\par}
+  }
+
+%% \CommentBreak{标签}  在两个 rbgroup 之间开始同一节的下一条 OpenReview 评论。
+%% 导出脚本把其后的回复块写入下一份文件（<节>_part2.md 等），每条各自统计字符数。
+%% 标签写成 (2 of 3) 时，导出脚本核对它与实际条数一致。
+\newtcolorbox{rbbreakbox}{enhanced,colback=rbcur!8,colframe=rbcur,boxrule=0pt,
+  leftrule=3pt,arc=0pt,left=6pt,right=4pt,top=3pt,bottom=3pt,
+  before~skip=10pt,after~skip=6pt,fontupper=\small}
+\NewDocumentCommand \CommentBreak { m }
+  {
+    \int_gincr:N \g_rb_part_int
+    \par
+    \begin{rbbreakbox}
+      {\sffamily\bfseries\color{rbcur}
+        OpenReview~评论分界\quad #1}\par
+      \use:x { \exp_not:N \rb_part_line:nn { \g_rb_cursec_tl } { \int_use:N \g_rb_part_int } }
+    \end{rbbreakbox}
+  }
+
+%% 评分一览表，栏目由 \SetScoreFields 决定
+\cs_new_protected:Npn \rb_add_row:n #1
+  {
+    \tl_put_right:Nn \l_rb_rows_tl { {\color{rb@#1}\bfseries #1} }
+    \seq_map_indexed_inline:Nn \g_rb_fields_seq
+      { \tl_put_right:Nn \l_rb_rows_tl { & \prop_item:Nn \g_rb_meta_prop { #1/##1 } } }
+    \tl_put_right:Nn \l_rb_rows_tl { & \RBcountcell{#1} \\ }
+  }
+\NewDocumentCommand \RBScoreTable { }
+  {
+    \tl_clear:N \l_rb_rows_tl
+    \tl_set:Nn \l_rb_head_tl { 审稿人 }
+    \seq_map_inline:Nn \g_rb_fields_seq
+      { \tl_put_right:Nn \l_rb_head_tl { & ##1 } }
+    \seq_map_function:NN \g_rb_reviewers_seq \rb_add_row:n
+    \tl_put_right:Nx \l_rb_rows_tl
+      {
+        \exp_not:n { \midrule 总回复 }
+        \prg_replicate:nn { \seq_count:N \g_rb_fields_seq } { \exp_not:n { & } }
+        \exp_not:n { & \RBcountcell{general} \\ }
+      }
+    \begin{center}\small
+    \use:x
+      {
+        \exp_not:N \begin{tabular}
+          { l \prg_replicate:nn { \seq_count:N \g_rb_fields_seq } { c }
+            > { \exp_not:N \raggedright \exp_not:N \arraybackslash } p { 5.3cm } }
+      }
+      \toprule
+      \l_rb_head_tl & 英文回复字符数 \\
+      \midrule
+      \l_rb_rows_tl
+      \bottomrule
+    \end{tabular}
+    \end{center}
+  }
+
+%% 附录中的参考意见（灰色，不回复）
+\NewDocumentCommand \ReferenceSection { m }
+  {
+    \clearpage
+    \colorlet{rbcur}{rbgray}
+    \section*{\color{rbgray}#1}
+    \pdfbookmark[1]{#1}{rb-ref}
+  }
+\ExplSyntaxOff

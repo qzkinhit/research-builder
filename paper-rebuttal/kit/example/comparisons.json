@@ -1,0 +1,8 @@
+[
+  {"id": "A", "printed": ["[2.9, 4.5]"], "a": "OurSys", "b": "L-Boost", "metric": "n_found/n_true", "filter": "budget=5", "scale": 100, "decimals": 1},
+  {"id": "B", "printed": ["[4.5, 6.1]"], "a": "OurSys", "b": "L-Forest", "metric": "n_found/n_true", "filter": "budget=5", "scale": 100, "decimals": 1},
+  {"id": "C", "printed": ["[3.4, 4.6]"], "a": "OurSys", "b": "L-Boost", "metric": "n_found/n_true", "filter": "budget=5&dataset=D1", "scale": 100, "decimals": 1},
+  {"id": "D", "printed": ["[1.7, 5.6]"], "a": "OurSys", "b": "L-Boost", "metric": "n_found/n_true", "filter": "budget=5&dataset=D2", "scale": 100, "decimals": 1},
+  {"id": "E", "printed": ["[2.3, 4.6]"], "a": "OurSys", "b": "L-Boost", "metric": "n_found/n_true", "filter": "budget=5&dataset=D3", "scale": 100, "decimals": 1},
+  {"id": "F", "printed": ["[2.6, 4.6]"], "a": "OurSys", "b": "L-Boost", "metric": "n_found/n_true", "filter": "budget=2", "scale": 100, "decimals": 1}
+]

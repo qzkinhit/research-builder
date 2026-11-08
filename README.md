@@ -17,7 +17,7 @@ research-builder 是一套给 Claude Code 与 Codex 用的科研辅助 skill。�
 
 它适用于「提出方法，用理论与实验证明它更好」的实证型研究。你放进来的素材越多(你读过的文献、你的论文、你的图表与文字)，它的产出越贴近你的研究与风格。
 
-*English summary.* research-builder is a Claude Code and Codex skill set that assists a researcher through a five-stage workflow for empirical papers. The researcher chooses the topic, reads the literature, proposes the idea and approves every stage. The skill helps turn the researcher's surveyed related work into a runnable system, faithfully reproduced baselines, multi-seed experiments and a bilingual (English and Chinese) LaTeX paper whose numbers are filled in by a backfill script from the experiment records. It ships a writing manual with 32 AI-writing patterns adapted from [humanizer](https://github.com/blader/humanizer) for academic prose, checkers for LaTeX, Word and PowerPoint, a matplotlib module for print-size experiment figures, LaTeX table macros, a bilingual paper skeleton, rebuttal and grant-proposal guides, and an editable-PPT figure skill with a starter SVG icon set. The documents are written in Chinese. Its desktop editor, [BiWrite](https://github.com/zzccppp/biwrite), applies the same rules while you write a bilingual paper by hand.
+*English summary.* research-builder is a Claude Code and Codex skill set that assists a researcher through a five-stage workflow for empirical papers. The researcher chooses the topic, reads the literature, proposes the idea and approves every stage. The skill helps turn the researcher's surveyed related work into a runnable system, faithfully reproduced baselines, multi-seed experiments and a bilingual (English and Chinese) LaTeX paper whose numbers are filled in by a backfill script from the experiment records. It ships a writing manual with 32 AI-writing patterns adapted from [humanizer](https://github.com/blader/humanizer) for academic prose, checkers for LaTeX, Word and PowerPoint, a matplotlib module for print-size experiment figures, LaTeX table macros, a bilingual paper skeleton, rebuttal and grant-proposal guides, a separate `paper-rebuttal` skill for discussion-period replies and revised PDFs with a LaTeX-to-OpenReview export and full-precision number checks, and an editable-PPT figure skill with a starter SVG icon set. The documents are written in Chinese. Its desktop editor, [BiWrite](https://github.com/zzccppp/biwrite), applies the same rules while you write a bilingual paper by hand.
 
 ## 能做什么
 
@@ -30,11 +30,12 @@ research-builder 是一套给 Claude Code 与 Codex 用的科研辅助 skill。�
 | 学术插图 | 独立的 `paper-figure-pptx` 技能，做可编辑的动机图、系统图与本子图，带 16 个自绘 SVG 入门图标 |
 | 模板 | 中英镜像的 LaTeX 骨架、镜像核对脚本、数字回填脚本、rebuttal 模板 |
 | 调研 | 独立的 `paper-survey` 技能，优先抓 arXiv 的 LaTeX 源与 HTML，按权威与开源筛选 |
+| 讨论期回复与修订稿 | 独立的 `paper-rebuttal` 技能，六阶段每阶段等你确认，含手册、英文句式、中英对照回复工程、OpenReview Markdown 导出、修订稿分色页边批注和全精度数字核对脚本。发帖与上传由你本人完成 |
 | 图形界面 | [BiWrite](https://github.com/zzccppp/biwrite) 桌面编辑器，中英双语逐段对照写作，LaTeX 实时编译预览，写作助手按本 skill 的规则润色、仿写、画图与修复 LaTeX |
 
 ## 快速开始
 
-**第一步，安装。** 克隆到 Claude Code 的 skill 目录并运行安装脚本，它会把 `paper-survey` 和 `paper-figure-pptx` 也部署成独立 skill。
+**第一步，安装。** 克隆到 Claude Code 的 skill 目录并运行安装脚本，它会把 `paper-survey`、`paper-rebuttal` 和 `paper-figure-pptx` 也部署成独立 skill。
 
 ```bash
 git clone https://github.com/qzkinhit/research-builder.git ~/.claude/skills/research-builder
@@ -81,7 +82,8 @@ python3 -m venv ~/.venvs/rb && ~/.venvs/rb/bin/pip install -r ~/.claude/skills/r
 | 回填论文 | 「回填实验章，排主表，画实验图」 | 数字由回填脚本写入的中英文两稿 |
 | 去 AI 腔 | 「按 writing-deai 把这段改一遍」 | 草稿、剩余痕迹清单和定稿 |
 | 润色文档 | 「按我的讲法润色这个 Word，别造新词」 | 就地改好文字的文档和一份改动清单 |
-| 写本子或 rebuttal | 「按 research-builder 写本子的研究内容」「写 rebuttal」 | 按 `knowledge/` 的结构写好的文字或可编译的 rebuttal |
+| 写本子或两页 rebuttal | 「按 research-builder 写本子的研究内容」「写两页的 author feedback」 | 按 `knowledge/` 的结构写好的文字或可编译的 rebuttal |
+| 讨论期回复与修订稿 | 「按 paper-rebuttal 回复审稿人，审稿意见在某某，我打算这样回应」 | 编号后的意见表、双语回复与可粘贴的楼层文本、标注好的修订稿、核对报告，每阶段结束等你确认 |
 | 画系统图 | 「按 paper-figure-pptx 画一张系统图」 | 可编辑的 PPT、矢量素材和渲染检查记录 |
 | 投稿前检查 | 「投稿前把数字、术语、版面核一遍」 | 检查清单的结果和按清单改好的稿件 |
 
@@ -98,6 +100,7 @@ python3 -m venv ~/.venvs/rb && ~/.venvs/rb/bin/pip install -r ~/.claude/skills/r
 | `figure-style/` | 实验图模块、样例与渲染图，`tables/` 是实验表的宏与生成脚本 |
 | `tools/` | `polish_check.py`、`audit_tex.py`、`docx_deai.py`、`build_docx.py`、`docx_layout_check.py`、交接文档模板 |
 | `paper-survey/` | 调研 skill，安装时单独部署 |
+| `paper-rebuttal/` | 讨论期回复 skill，手册、句式和 `kit/` 工具包，安装时单独部署 |
 | `paper-figure-pptx/` | 学术插图 skill、入门图标库与对象处理脚本，安装时单独部署 |
 | `materials/` | 你自己的素材，除 README 外不进 git |
 | `researched_papers/` | 调研投递夹，论文文件不进 git |
@@ -106,7 +109,7 @@ python3 -m venv ~/.venvs/rb && ~/.venvs/rb/bin/pip install -r ~/.claude/skills/r
 
 ## Codex 与网页版
 
-**Codex CLI。** 运行 `bash codex/sync_codex_skills.sh`，生成 `~/.codex/skills/` 下的三个 skill，旧版本先备份。Codex 没有子代理，需要并行的步骤改为按顺序执行。详见 [codex/README.md](codex/README.md)。
+**Codex CLI。** 运行 `bash codex/sync_codex_skills.sh`，生成 `~/.codex/skills/` 下的四个 skill，旧版本先备份。Codex 没有子代理，需要并行的步骤改为按顺序执行。详见 [codex/README.md](codex/README.md)。
 
 **claude.ai 网页版。** 在 Settings 的 Skills 页面上传 `dist/research-builder-web.zip`，需要打开代码执行。详见 [dist/README.md](dist/README.md)。
 
@@ -118,6 +121,7 @@ python3 tools/audit_tex.py templates/latex-bilingual/sections_en/*.tex
 python3 templates/latex-bilingual/check_mirror.py            # 中英镜像核对
 python3 paper-figure-pptx/scripts/tests_native_objects.py    # PPT 原生对象测试
 python3 tools/test_pptx_skill_install.py                     # 安装脚本测试
+make -C paper-rebuttal/kit test                              # 讨论期回复工具包自测
 ```
 
 ## 维护

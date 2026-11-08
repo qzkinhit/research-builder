@@ -18,7 +18,7 @@ description: 在研究者主导下，按对齐、搭系统、忠实 baseline、�
 | 文件 | 内容 | 何时读 |
 |---|---|---|
 | `SKILL.md` | 流程、编排、实验纪律、架构纪律 | 每次启动 |
-| `writing-playbook.md` | 论文叙事、取舍、数字与术语、版面、表、图、交稿前检查、别人改稿后的收拾、投稿前最后一轮的事实核查与能力表 | 写或改任何论文文字、表、图之前 |
+| `writing-playbook.md` | 论文叙事、取舍、数字与术语、版面、表、图、交稿前检查、别人改稿后的收拾、投稿前最后一轮的事实核查与能力表、重跑与修订轮的数字规则和修订标记 | 写或改任何论文文字、表、图之前 |
 | `writing-deai.md` | 标点、句式与用词的硬禁令，32 条 AI 腔模式，去 AI 腔的改写流程与声音匹配 | 写、改、润色任何对外文字之前 |
 | `diagnostic-playbook.md` | 方法低于 baseline、基线数值异常、作业崩溃时的排查 | 每批实验结果出来后 |
 | `knowledge/` | 从作者论文、本子和 rebuttal 蒸馏出的通用写法，见下节 | 写对应类型的文字之前 |
@@ -46,12 +46,12 @@ description: 在研究者主导下，按对齐、搭系统、忠实 baseline、�
 | `paper-anatomy.md` | 方法论文从标题到附录的逐节骨架和中英文句式 |
 | `benchmark-papers.md` | benchmark 类论文的叙事 |
 | `grant-proposal.md` | 基金本子的提纲、段落模式和句式 |
-| `rebuttal.md` | 审稿回复的结构与句式 |
+| `rebuttal.md` | 篇幅固定的一次性审稿回复的结构与句式，讨论期回复用 `paper-rebuttal` |
 | `figure-archetypes.md` | 动机图、系统图和本子图的版式原型与图标语义 |
 
 读取顺序是 `materials/domain/`、`materials/general/` 与 `materials/writing-samples/`、`researched_papers/`、`knowledge/`。用户素材与 `knowledge/` 冲突时以用户素材为准，两者与 `writing-playbook.md`、`writing-deai.md` 冲突时以这两个手册为准。
 
-## 可单独调用的五件事
+## 可单独调用的六件事
 
 **画本子图、动机图与系统图，用独立的 `paper-figure-pptx` 技能。** 它与本技能安装在同级目录，仓库里的源文件是 `paper-figure-pptx/SKILL.md`。布局、箭头、字体、图标、矢量保存和检查的规则都在那里，版式原型见 `knowledge/figure-archetypes.md`。整套汇报 PPT 参考 `materials/ppt/` 的版式与讲法。实测数据图的画法在 `figure-style/`，放进 PPT 时保持矢量，关键数字与结论标红加粗。
 
@@ -59,7 +59,9 @@ description: 在研究者主导下，按对齐、搭系统、忠实 baseline、�
 
 **润色 PPT 或 Word。** 就地改文字，不动版式与图。按 `knowledge/storytelling.md` 的讲故事方式改写，按 `writing-deai.md` 的流程去 AI 腔。docx 用 python-docx、pptx 用 python-pptx 逐段读出、改写、写回，保留原结构与样式。改完跑 `tools/polish_check.py` 到零红线命中，并列出改了哪些、为什么。
 
-**写本子与 rebuttal。** 本子按 `knowledge/grant-proposal.md`，rebuttal 按 `knowledge/rebuttal.md` 与 `templates/rebuttal/rebuttal_template.tex`。
+**写本子。** 按 `knowledge/grant-proposal.md`。
+
+**写 rebuttal 与修订稿，用独立的 `paper-rebuttal` 技能。** 它与本技能安装在同级目录，仓库里的源文件是 `paper-rebuttal/SKILL.md`。OpenReview 式讨论期的楼层回复、修订稿标红与页边批注、回复里的数字核对都在那里，用户说「写 rebuttal」时先转到它。篇幅固定的一次性回复(例如两页 PDF)按 `knowledge/rebuttal.md` 与 `templates/rebuttal/rebuttal_template.tex`。
 
 **论文写作、润色与投稿前审校。** 起草、回填、逐段打磨、重写摘要引言结论、排表、画实验图、同步中英镜像、投稿前检查，都先读 `writing-playbook.md` 与 `writing-deai.md` 再动手。
 

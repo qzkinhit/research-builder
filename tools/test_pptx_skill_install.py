@@ -63,6 +63,7 @@ class PptxSkillInstallTests(unittest.TestCase):
         write(self.repo / "materials/general/fixture.txt", "general\n")
         write(self.repo / "paper-survey/SKILL.md", "---\nname: paper-survey\ndescription: Existing survey\n---\n# Survey fixture\nExisting source: ~/.claude/skills/paper-survey/\n")
         write(self.repo / "paper-survey/tools/fetch_arxiv.sh", "#!/usr/bin/env bash\nexit 0\n")
+        write(self.repo / "paper-rebuttal/SKILL.md", "---\nname: paper-rebuttal\ndescription: Existing rebuttal\n---\n# Rebuttal fixture\nExisting source: ~/.claude/skills/paper-rebuttal/\n")
         write(self.repo / "materials/README.md", "MATERIALS_README_SENTINEL\n")
         self.source_snapshot = snapshot(self.repo)
         self.expected_ppt = snapshot(self.repo / PPT_NAME)
@@ -136,10 +137,10 @@ class PptxSkillInstallTests(unittest.TestCase):
                 self.assert_material_links(rb)
                 self.assertEqual((rb / "writing-playbook.md").read_bytes(), (self.repo / "writing-playbook.md").read_bytes())
                 self.assertEqual((rb / "diagnostic-playbook.md").read_bytes(), (self.repo / "diagnostic-playbook.md").read_bytes())
-                for name in ("research-builder", "paper-survey"):
+                for name in ("research-builder", "paper-survey", "paper-rebuttal"):
                     skill = self.target / platform / "skills" / name / "SKILL.md"
                     if platform == ".claude":
-                        source = self.repo / ("SKILL.md" if name == "research-builder" else "paper-survey/SKILL.md")
+                        source = self.repo / ("SKILL.md" if name == "research-builder" else f"{name}/SKILL.md")
                         self.assertEqual(skill.read_bytes(), source.read_bytes())
                     else:
                         text = skill.read_text(encoding="utf-8")

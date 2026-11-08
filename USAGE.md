@@ -50,7 +50,22 @@
 
 ## 写 rebuttal
 
-**说法。**「按 research-builder 写 rebuttal，审稿意见在 <路径>」。
+**讨论期回复，说法。**「按 paper-rebuttal 回复审稿人，审稿意见在 <路径>，我打算这样回应」。
+
+适用于评论可以叠楼、可以补实验、可以上传修订稿的讨论期。`paper-rebuttal` 分六个阶段辅助你，每个阶段结束停下等你确认。回应方向、实验范围、写入哪些结果和最后的文字由你决定，发帖和上传由你本人完成。
+
+| 阶段 | 交付物 | 由你确认 |
+|---|---|---|
+| 0 对齐 | 逐字存档并编号的审稿意见、点名数字清单、事实清单 | 每条意见的回应方向，做哪些实验 |
+| 1 实验 | 实验规格、汇总表、复算报告 | 实验范围，哪些结果写入 |
+| 2 拟稿 | 中英对照回复、审稿人视角的预审意见 | 每个论点和措辞 |
+| 3 修订稿 | 修订稿 PDF，改动标红，页边按审稿人分色写编号 | 修订取舍，每处红字 |
+| 4 核对与润色 | 回复与修订稿中英四份文档的对账、OpenReview 渲染预检、去 AI 腔前后的不变量比对 | 清单里需要判断的项目 |
+| 5 打包 | 按楼编号的粘贴文本、上传文件、操作说明 | 本人发帖、上传、更新匿名镜像 |
+
+工具包在 `paper-rebuttal/kit/`，用 `make test`、`make demo` 先在虚构示例上跑通，用法见 `kit/README.md`。
+
+**一次性回复，说法。**「按 research-builder 写两页的 author feedback，审稿意见在 <路径>」。
 
 它按 `knowledge/rebuttal.md` 组织，用 `templates/rebuttal/rebuttal_template.tex` 排版。共同的问题进 General Response，每条意见一个编号标签，第一句直接回答，新实验的头条数字加粗，修订承诺具体到节和图表编号。
 
@@ -74,4 +89,5 @@ python3 tools/audit_tex.py main.tex appendix.tex
 python3 templates/latex-bilingual/check_mirror.py main_en.tex main_zh.tex
 python3 templates/backfill/backfill.py --registry templates/backfill/registry.example.json --paper-dir templates/latex-bilingual --dry-run
 bash paper-survey/tools/fetch_arxiv.sh 2302.03169 researched_papers
+make -C paper-rebuttal/kit test
 ```

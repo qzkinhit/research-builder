@@ -2,7 +2,7 @@
 
 Codex 有三种方式承载同一套工作流，内容都来自本仓库：
 
-- **Codex skill(推荐)**：`~/.codex/skills/research-builder/` 与 `~/.codex/skills/paper-survey/`，由 `sync_codex_skills.sh` 从仓库生成，与 Claude 版逐文件一致，只有 SKILL.md 头部的 description 与适配说明不同。
+- **Codex skill(推荐)**：`~/.codex/skills/research-builder/`、`~/.codex/skills/paper-survey/` 与 `~/.codex/skills/paper-rebuttal/`，由 `sync_codex_skills.sh` 从仓库生成，与 Claude 版逐文件一致，只有 SKILL.md 头部的 description 与适配说明不同。
 - **自定义 prompt**：把 `research-builder.md`、`paper-survey.md` 放到 `~/.codex/prompts/`，在 Codex 里用 `/research-builder`、`/paper-survey` 显式调用。
 - **AGENTS.md**：把硬纪律(无破折号分号、不造新词、用素材锁定词、LaTeX 与 HTML 优先)写进项目根的 `AGENTS.md`，Codex 每次都遵守。
 
@@ -18,13 +18,13 @@ bash codex/sync_codex_skills.sh --pptx-only
 
 ## 安装
 
-**推荐，Codex skills。** Codex 现在会读 `~/.codex/skills/<名字>/SKILL.md`。在仓库里跑一行即可把三个 skill 同步过去，旧版本自动备份到 `~/.codex/skill_backups/`：
+**推荐，Codex skills。** Codex 现在会读 `~/.codex/skills/<名字>/SKILL.md`。在仓库里跑一行即可把四个 skill 同步过去，旧版本自动备份到 `~/.codex/skill_backups/`：
 
 ```bash
 bash codex/sync_codex_skills.sh
 ```
 
-脚本把仓库镜像到 `~/.codex/skills/research-builder/` 与 `~/.codex/skills/paper-survey/`，SKILL.md 换成 Codex 版(description 裁到 1024 字符以内，加适配说明，路径改成 `~/.codex/skills/`)，保留各自的 `agents/openai.yaml`。改了 skill 就重跑一次。
+脚本把仓库镜像到 `~/.codex/skills/research-builder/`、`~/.codex/skills/paper-survey/` 与 `~/.codex/skills/paper-rebuttal/`，SKILL.md 换成 Codex 版(description 裁到 1024 字符以内，加适配说明，路径改成 `~/.codex/skills/`)，保留各自的 `agents/openai.yaml`。改了 skill 就重跑一次。
 
 **备选，自定义 prompt。**
 

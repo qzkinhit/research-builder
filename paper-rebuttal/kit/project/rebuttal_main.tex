@@ -1,0 +1,177 @@
+%% ============================================================================
+%% rebuttal_main.tex  作者回复工作稿（中英对照）的主文件
+%% 编译  make（先导出 OpenReview 文本与字符数，再 xelatex 两遍）
+%% 英文回复的唯一来源是本文件中的 responseen 环境，导出规则见 README.md。
+%% 审稿意见原文与译文在 reviews_bilingual.tex，英文原文不要改。
+%% 下面的内容是虚构示例，换成自己的内容后删掉本行。
+%% ============================================================================
+\documentclass[a4paper,fontset=none,zihao=5]{ctexart}
+\input{rebuttal_preamble}
+\input{reviewers}
+\input{reviews_bilingual}
+%% 按审稿表的栏目改，\DefScores 的值与 \SetScoreFields 的栏目一一对应
+\SetScoreFields{Rating, Confidence, Soundness, Presentation}
+\DefScores{R1}{{3 (Weak reject)}, 4, 2, 3}
+\DefScores{R2}{{4 (Weak accept)}, 3, 3, 3}
+%% counts.tex 由 tools/export_openreview.py 生成
+\InputIfFileExists{counts.tex}{}{}
+
+\begin{document}
+
+{\centering
+{\Large\bfseries Submission 0000 作者回复工作稿（中英对照）}\par\smallskip
+{\small OurSys: Budget-Constrained Duplicate Record Detection}\par}
+\medskip
+
+\begin{itemize}\small
+\item 每组意见先排英文原文与中文译文，随后是合并回复。英文回复写在彩色标题框（responseen）中，导出到 OpenReview。中文对照写在浅色框（responsezh）中，不导出。
+\item 调整合并方式时只改 rbgroup 的编号列表，例如 \texttt{\textbackslash begin\{rbgroup\}\{R1-W1, R1-Q1\}}。
+\item 待回填的数字写成 \texttt{\textbackslash pending\{说明\}}，在 PDF 中显示为\pending{示例}。英文回复只能用 README.md 列出的命令，其余命令导出时报错。
+\item \texttt{make} 导出并编译，\texttt{make check} 只导出并统计字符数，导出文本在 openreview 目录下。一位审稿人需要多条评论时，在两个 rbgroup 之间写 \texttt{\textbackslash CommentBreak\{(2 of 2)\}}，其后的回复块导出到下一份文件（如 R1\_part2.md），每条各自统计字符数。
+\end{itemize}
+
+\RBScoreTable
+
+%% ============================================================================
+\GeneralSection
+
+\begin{rbgroup}*[共性问题]{R1-W1, R1-Q1, R2-W1}
+\begin{responseen}
+Our thanks go to both reviewers for the attention given to this submission. All requested experiments are finished. OurSys picks the candidate pairs that go to labeling when the budget is fixed. Two questions recur across the reviews, the stability of the gain over data splits and its dependence on the budget, and each review thread below gives the measurements. A new PDF will follow before the discussion closes. Red text marks each substantive edit, with the number of the related comment beside it in the right margin, for example R1-W1, in one color per reviewer.
+
+\textbf{Stability over data splits.} \textbf{With five data splits and three training runs per cell, OurSys is 3.6 recall points above L-Boost, the best baseline ([2.9, 4.5], positive in 15 of 15 cells).} Table G1 lists each dataset.
+
+Table G1. Recall at a labeling budget of 5\% of the candidate pairs, mean over five data splits, and the gain of OurSys over L-Boost in points with its 95\% interval over splits.
+
+\begin{rtable}{lcccc}
+Dataset & OurSys & L-Boost & L-Forest & Gain over L-Boost \\
+\midrule
+D1 & 0.880 & 0.840 & 0.816 & +4.0 [3.4, 4.6] \\
+D2 & 0.831 & 0.796 & 0.782 & +3.5 [1.7, 5.6] \\
+D3 & 0.890 & 0.856 & 0.843 & +3.4 [2.3, 4.6] \\
+Mean & 0.867 & 0.831 & 0.814 & +3.6 [2.9, 4.5] \\
+\end{rtable}
+
+\textbf{Smaller budgets.} At a budget of 2\% of the candidate pairs, OurSys reaches 0.799 against 0.763 for L-Boost, a gain of 3.6 points ([2.6, 4.6], positive in 15 of 15 cells). In the revision, the five-split averages with intervals are in Table 1 and the second budget is in Section 4.2 (margin notes R1-W1 and R2-W1). Please tell us if anything remains unclear.
+\end{responseen}
+\begin{responsezh}
+感谢两位审稿人对本文投入的时间。审稿人要求的实验都已完成。OurSys 在预算固定时选择把哪些候选记录对送去标注。两份审稿意见都提到两个问题，增益在数据划分上的稳定性与增益对预算的依赖，各审稿人名下的回复给出测量结果。讨论结束前将上传新的 PDF。红字标出每处实质改动，右侧页边写相应意见的编号，例如 R1-W1，每位审稿人一种颜色。
+
+\textbf{数据划分上的稳定性。}\textbf{在五个数据划分、每格三次训练下，OurSys 的召回率比最强基线 L-Boost 高 3.6 个百分点（[2.9, 4.5]，15 个格子中 15 个为正）。}表 G1 列出各数据集。
+
+表 G1。标注预算为候选记录对的 5\% 时的召回率，五个数据划分的均值，以及 OurSys 相对 L-Boost 的增益（百分点）及其在划分上的 95\% 区间。
+
+\begin{rtable}{lcccc}
+数据集 & OurSys & L-Boost & L-Forest & 相对 L-Boost 的增益 \\
+\midrule
+D1 & 0.880 & 0.840 & 0.816 & +4.0 [3.4, 4.6] \\
+D2 & 0.831 & 0.796 & 0.782 & +3.5 [1.7, 5.6] \\
+D3 & 0.890 & 0.856 & 0.843 & +3.4 [2.3, 4.6] \\
+均值 & 0.867 & 0.831 & 0.814 & +3.6 [2.9, 4.5] \\
+\end{rtable}
+
+\textbf{更小的预算。}预算为候选记录对的 2\% 时，OurSys 达到 0.799，L-Boost 为 0.763，增益 3.6 个百分点（[2.6, 4.6]，15 个格子中 15 个为正）。修订稿中，带区间的五划分均值在表 1，第二档预算在第 4.2 节（页边编号 R1-W1 与 R2-W1）。如有仍不清楚的地方，请告诉我们。
+\end{responsezh}
+\end{rbgroup}
+
+%% ============================================================================
+\ReviewerSection{R1}
+
+\begin{rbgroup}[(1 of 2)]{R1-W1, R1-Q1}
+\begin{responseen}
+We are grateful for the careful reading, for the remark that the budget constraint matches how labeling is paid for, and for the note that the comparison covers both rule-based and learning-based matchers. Two issues stand out, the separation of the gain from split variance (W1, Q1) and the definition of the selection score (W2). Replies follow point by point, and the end of each reply gives the corresponding place in the revision.
+
+Results per comment, with the matching place in the revised PDF.
+
+\begin{rtable}{lll}
+Comment & Finding & Location (margin note) \\
+\midrule
+W1, Q1, split variance & \textbf{+3.6 points} over L-Boost [2.9, 4.5], positive in 15 of 15 cells & Table 1 and Section 4.2 (R1-W1, R1-Q1) \\
+W2, selection score & The score is now a displayed equation over the recall gains & Equation 2 in Section 3.2 (R1-W2) \\
+\end{rtable}
+
+\textbf{W1 and Q1, stability across data splits.} The request is for multi-split averages with paired intervals. \textbf{The gain holds across splits, and all 15 dataset and split cells are positive.} Each dataset now uses five data splits, and three training runs are averaged in each cell. Table G1 of our general comment has the per-dataset numbers. The mean gain over L-Boost is 3.6 points ([2.9, 4.5], 95\% bootstrap interval over splits) and the gain over L-Forest is 5.3 points ([4.5, 6.1]). OurSys is at or above L-Forest on every dataset. L-Boost is the strongest baseline on every dataset, and its lead over L-Forest stays within 2.5 points. In the revision, these averages with intervals are in Table 1 and the protocol is in Section 4.2 (margin notes R1-W1 and R1-Q1).
+\end{responseen}
+\begin{responsezh}
+感谢审稿人细致的阅读，也感谢审稿人指出预算约束符合按标注量付费的实际情况，以及比较覆盖了基于规则与基于学习的匹配器。需要回应的有两点，增益与划分波动的区分（W1、Q1）和选择分数的定义（W2）。下面逐点回复，每条回复末尾给出修订稿中的对应位置。
+
+每条意见的结果及其在修订稿中的对应位置。
+
+\begin{rtable}{lll}
+意见 & 结果 & 位置（页边编号） \\
+\midrule
+W1、Q1，划分波动 & 相对 L-Boost \textbf{+3.6 个百分点} [2.9, 4.5]，15 个格子中 15 个为正 & 表 1 与第 4.2 节（R1-W1、R1-Q1） \\
+W2，选择分数 & 分数改为基于召回率增益的独立公式 & 第 3.2 节公式 2（R1-W2） \\
+\end{rtable}
+
+\textbf{W1 与 Q1，数据划分上的稳定性。}审稿人要求给出多划分均值与配对区间。\textbf{增益在各划分上成立，15 个数据集与划分的格子全部为正。}每个数据集现在用五个数据划分，每格取三次训练的均值。各数据集的数字在总回复的表 G1。相对 L-Boost 的平均增益为 3.6 个百分点（[2.9, 4.5]，划分上的 95\% 自助法区间），相对 L-Forest 的增益为 5.3 个百分点（[4.5, 6.1]）。OurSys 在每个数据集上都不低于 L-Forest。L-Boost 在每个数据集上都是最强的对比方法，它相对 L-Forest 的领先不超过 2.5 个百分点。修订稿中，这些带区间的均值在表 1，协议在第 4.2 节（页边编号 R1-W1 与 R1-Q1）。
+\end{responsezh}
+\end{rbgroup}
+
+\CommentBreak{(2 of 2)}
+
+\begin{rbgroup}{R1-W2}
+\begin{responseen}
+\textbf{W2, definition of the selection score.} The reviewer asks for a formal definition of the selection score of Section 3.2. For a candidate pair $p$, the score is the mean gain in recall over the reference batches $B$,
+
+\[ s(p) = \frac{1}{|B|} \sum_{b \in B} \big( R(b \cup p) - R(b) \big) , \]
+
+where $R$ is recall under the labeling budget and $b \cup p$ is batch $b$ with the pair $p$ added. In the revision, Equation 2 in Section 3.2 gives this definition (margin note R1-W2).
+\end{responseen}
+\begin{responsezh}
+\textbf{W2，选择分数的定义。}审稿人要求给出第 3.2 节选择分数的形式化定义。对候选记录对 $p$，分数是它在参照批次 $B$ 上的平均召回率增益，
+
+\[ s(p) = \frac{1}{|B|} \sum_{b \in B} \big( R(b \cup p) - R(b) \big) , \]
+
+其中 $R$ 是标注预算下的召回率，$b \cup p$ 是在批次 $b$ 中加入记录对 $p$。修订稿中，第 3.2 节公式 2 给出这一定义（页边编号 R1-W2）。
+\end{responsezh}
+\end{rbgroup}
+
+\begin{rbgroup}[结尾]{}
+\begin{responseen}
+The questions on variance and on the score definition improved the paper, and we thank the reviewer for them. Please tell us if anything remains unclear.
+\end{responseen}
+\begin{responsezh}
+关于波动与分数定义的问题改进了本文，感谢审稿人。如有仍不清楚的地方，请告诉我们。
+\end{responsezh}
+\end{rbgroup}
+
+%% ============================================================================
+\ReviewerSection{R2}
+
+\begin{rbgroup}[开头]{R2-W1, R2-Q1}
+\begin{responseen}
+Many thanks for the constructive comments, and for describing the problem as practical and the evaluation as easy to follow. Two questions need a reply, the behavior of the gain at smaller budgets (W1) and the running time at equal budget (Q1). Replies follow point by point, and the end of each reply gives the corresponding place in the revision.
+
+Results per comment, with the matching place in the revised PDF.
+
+\begin{rtable}{lll}
+Comment & Finding & Location (margin note) \\
+\midrule
+W1, smaller budget & At a budget of 2\%, \textbf{+3.6 points} over L-Boost [2.6, 4.6] & Section 4.2 (R2-W1) \\
+Q1, running time & \textbf{41.0 seconds} per run against 36.8 for L-Boost at the same budget & Section 4.2 (R2-Q1) \\
+\end{rtable}
+
+\textbf{W1, smaller labeling budgets.} The reviewer asks how the gain changes when the budget is smaller than 5\% of the candidate pairs. \textbf{At a budget of 2\% of the candidate pairs, OurSys reaches 0.799 against 0.763 for L-Boost and 0.743 for L-Forest.} The gain over L-Boost is 3.6 points ([2.6, 4.6]), positive in 15 of 15 cells. In the revision, Section 4.2 reports this budget (margin note R2-W1).
+
+\textbf{Q1, running time at the same budget.} The reviewer asks how the running time compares with the baselines at the same labeling budget. At the budget of 5\%, one run of OurSys takes 41.0 seconds on average, against 36.8 for L-Boost and 23.8 for L-Forest, with the same number of labeled pairs for every method. In the revision, Section 4.2 reports these times (margin note R2-Q1). Please tell us if anything remains unclear.
+\end{responseen}
+\begin{responsezh}
+感谢审稿人富有建设性的意见，也感谢审稿人指出问题实用、评估清楚。需要回复的有两个问题，预算更小时增益的变化（W1）和相同预算下的运行时间（Q1）。下面逐点回复，每条回复末尾给出修订稿中的对应位置。
+
+每条意见的结果及其在修订稿中的对应位置。
+
+\begin{rtable}{lll}
+意见 & 结果 & 位置（页边编号） \\
+\midrule
+W1，更小的预算 & 预算为 2\% 时相对 L-Boost \textbf{+3.6 个百分点} [2.6, 4.6] & 第 4.2 节（R2-W1） \\
+Q1，运行时间 & 每次运行 \textbf{41.0 秒}，相同预算下 L-Boost 为 36.8 秒 & 第 4.2 节（R2-Q1） \\
+\end{rtable}
+
+\textbf{W1，更小的标注预算。}审稿人询问预算小于候选记录对的 5\% 时增益如何变化。\textbf{预算为候选记录对的 2\% 时，OurSys 达到 0.799，L-Boost 为 0.763，L-Forest 为 0.743。}相对 L-Boost 的增益为 3.6 个百分点（[2.6, 4.6]），15 个格子中 15 个为正。修订稿中，第 4.2 节报告这一预算（页边编号 R2-W1）。
+
+\textbf{Q1，相同预算下的运行时间。}审稿人询问相同标注预算下运行时间与对比方法相比如何。预算为 5\% 时，OurSys 每次运行平均 41.0 秒，L-Boost 为 36.8 秒，L-Forest 为 23.8 秒，各方法标注的记录对数量相同。修订稿中，第 4.2 节报告这些时间（页边编号 R2-Q1）。如有仍不清楚的地方，请告诉我们。
+\end{responsezh}
+\end{rbgroup}
+
+\end{document}

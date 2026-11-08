@@ -1,0 +1,24 @@
+id,kind,printed,decimals,scale,metric,a,b,filter,bound,file,note
+C01,value,0.880,3,1,n_found/n_true,OurSys,,budget=5&dataset=D1,,project/rebuttal_main.tex,Table G1 row D1
+C02,value,0.840,3,1,n_found/n_true,L-Boost,,budget=5&dataset=D1,,project/rebuttal_main.tex,Table G1 row D1 (the 4-decimal summary would give 0.841)
+C03,value,0.816,3,1,n_found/n_true,L-Forest,,budget=5&dataset=D1,,project/rebuttal_main.tex,Table G1 row D1 (the 4-decimal summary would give 0.817)
+C04,value,0.867,3,1,n_found/n_true,OurSys,,budget=5,,project/rebuttal_main.tex,Table G1 row Mean
+C05,value,0.831,3,1,n_found/n_true,L-Boost,,budget=5,,project/rebuttal_main.tex,Table G1 row Mean
+C06,value,0.814,3,1,n_found/n_true,L-Forest,,budget=5,,project/rebuttal_main.tex,Table G1 row Mean
+C07,diff,+3.6,1,100,n_found/n_true,OurSys,L-Boost,budget=5,,project/rebuttal_main.tex,headline gain (the 4-decimal summary would give 3.7)
+C08,diff,+4.0,1,100,n_found/n_true,OurSys,L-Boost,budget=5&dataset=D1,,project/rebuttal_main.tex,Table G1 gain on D1
+C09,diff,+3.5,1,100,n_found/n_true,OurSys,L-Boost,budget=5&dataset=D2,,project/rebuttal_main.tex,Table G1 gain on D2
+C10,diff,+3.4,1,100,n_found/n_true,OurSys,L-Boost,budget=5&dataset=D3,,project/rebuttal_main.tex,Table G1 gain on D3
+C11,diff,5.3,1,100,n_found/n_true,OurSys,L-Forest,budget=5,,project/rebuttal_main.tex,gain over L-Forest
+C12,wins,15 of 15,,,n_found/n_true,OurSys,L-Boost,budget=5,,project/rebuttal_main.tex,positive cells
+C13,at_least_each,0,,100,n_found/n_true,OurSys,L-Forest,budget=5,0,,at or above L-Forest on every dataset
+C14,at_least_each,0,,100,n_found/n_true,L-Boost,L-Forest,budget=5,0,,L-Boost is the strongest baseline on every dataset
+C15,within_each,2.5,,100,n_found/n_true,L-Boost,L-Forest,budget=5,2.5,project/rebuttal_main.tex,lead over L-Forest stays within 2.5 points
+C16,value,0.799,3,1,n_found/n_true,OurSys,,budget=2,,project/rebuttal_main.tex,budget of 2%
+C17,value,0.763,3,1,n_found/n_true,L-Boost,,budget=2,,project/rebuttal_main.tex,budget of 2%
+C18,value,0.743,3,1,n_found/n_true,L-Forest,,budget=2,,project/rebuttal_main.tex,budget of 2%
+C19,diff,3.6,1,100,n_found/n_true,OurSys,L-Boost,budget=2,,project/rebuttal_main.tex,gain at 2%
+C20,wins,15 of 15,,,n_found/n_true,OurSys,L-Boost,budget=2,,project/rebuttal_main.tex,positive cells at 2%
+C21,value,41.0,1,1,seconds,OurSys,,budget=5,,project/rebuttal_main.tex,running time
+C22,value,36.8,1,1,seconds,L-Boost,,budget=5,,project/rebuttal_main.tex,running time
+C23,value,23.8,1,1,seconds,L-Forest,,budget=5,,project/rebuttal_main.tex,running time

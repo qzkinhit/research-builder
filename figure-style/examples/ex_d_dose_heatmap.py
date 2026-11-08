@@ -42,7 +42,7 @@ def main(out_dir: Path = HERE / "out", gallery: bool = False) -> dict:
     handles = fs.line_panel(ax_a, rho, series, refs={"Clean": "oracle"}, xlabel="Error rate", ylabel="Gain (pp)")
     ax_a.set_xticks(rho[::2])
 
-    table = heat.pivot(index="dataset", columns="rho", values="vs_nofix_pp")
+    table = heat.pivot(index="dataset", columns="rho", values="vs_uncleaned_pp")
     image = fs.heatmap(ax_b, table.to_numpy(), table.index.tolist(), [f"{c:g}" for c in table.columns],
                        annotate=2.0, xlabel="Error rate")
 
