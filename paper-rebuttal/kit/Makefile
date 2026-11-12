@@ -35,7 +35,7 @@ demo:
 
 clean:
 	$(MAKE) -C project clean
-	rm -rf project/openreview project/deliverables project/drafts project/counts.tex project/interval_map.md project/invariants.json project/rebuttal_main.pdf
+	rm -rf project/openreview project/deliverables project/deliverables_checksums.txt project/drafts project/counts.tex project/interval_map.md project/invariants.json project/rebuttal_main.pdf
 	cd revision && latexmk -C revmark_demo.tex > /dev/null 2>&1 || true
 	rm -f revision/*.pdf revision/*.aux revision/*.log revision/*.out revision/*.fls revision/*.fdb_latexmk revision/*.xdv
 	find . -name __pycache__ -type d -prune -exec rm -rf {} +

@@ -195,7 +195,7 @@ OpenReview 先跑 Markdown 再跑 TeX，官方文档也写明 Markdown 会吃掉
 | `check_invariants.py` | 改措辞前后各 dump 一次再 compare，数字、数词、节表图引用、文献键、审稿人编号、哪份文稿的用词都不能变，块外文字也不能变。`lint` 列出破折号、分号、冒号和套话 |
 | `check_glance_table.py` | 一览表每个数字都要在同一位审稿人的正文中出现，中英两张表的数字相同，第三列写清位置和页边编号。加 `--revision` 时公式里的数字要在修订稿中出现 |
 | `check_margin_tags.py` | PDF 上核对批注颜色、位置、重叠、与红色文字的距离和全稿颜色。源文件上核对编号属于审稿意见、一条批注不超过两个编号、回复引用的编号在修订稿里都有。`--original` 与 `--revised` 列出未标记的改动 |
-| `build_deliverables.py` | 按发帖顺序编号复制粘贴文本，逐字节比对，写 README 与 SHA256SUMS。有旧文件残留、未就绪或仍有 `<占位>` 时停止 |
+| `build_deliverables.py` | 按发帖顺序编号复制粘贴文本，逐字节比对，写 README。各文件的 SHA-256 写在交付目录旁边的 `<目录名>_checksums.txt`，只供本地自查，交付目录里不放校验文件。有旧文件残留、未就绪或仍有 `<占位>` 时停止 |
 
 用示例跑一遍的命令都在顶层 `Makefile` 的 `demo` 目标里。
 

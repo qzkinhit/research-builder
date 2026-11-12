@@ -3,6 +3,7 @@ project/openreview/
 project/counts.tex
 project/drafts/
 project/deliverables/
+project/deliverables_checksums.txt
 *.pdf
 *.aux
 *.log

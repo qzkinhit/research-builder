@@ -8,7 +8,9 @@ kit.json. Comments are copied in posting order as NN_<section>_<k>of<n>.md, then
 the follow-up after the upload (the English text alone, and with its Chinese
 reference), then the reminder file, then the files listed in copy. Every copy is
 compared byte for byte with its source. A README.md lists each comment with its
-title and character count, and SHA256SUMS lists every file.
+title and character count. The SHA-256 list of every file is written beside the
+directory, as <out>_checksums.txt, so the directory holds no checksum file (the
+playbook keeps checksum files out of what reviewers receive).
 
 The build stops if a file of an earlier build would remain beside the new one
 (use --clean), if the export is not ready to paste (use --allow-not-ready only
@@ -24,6 +26,11 @@ import sys
 from pathlib import Path
 
 SEP = "\n\n"
+
+
+def checksum_path(out):
+    """Local checksum list beside the deliverables directory, never inside it."""
+    return out.parent / f"{out.name}_checksums.txt"
 
 
 def sha256(path):
@@ -86,7 +93,12 @@ def main(argv=None):
     files = [(root / item["src"], out / item["dst"], "", "copy") for item in spec.get("copy", [])]
     wanted = {p for _s, p, _t, _k in plan + extras + files}
     existing = {p for p in out.rglob("*") if p.is_file()} if out.exists() else set()
-    stale = sorted(str(p.relative_to(out)) for p in existing - wanted if p.name not in ("README.md", "SHA256SUMS"))
+    old_sums = out / "SHA256SUMS"
+    if old_sums in existing:
+        old_sums.unlink()
+        existing.discard(old_sums)
+        print(f"removed {old_sums} of an earlier build, the list now goes to {checksum_path(out)}")
+    stale = sorted(str(p.relative_to(out)) for p in existing - wanted if p.name != "README.md")
     if stale:
         print(f"unexpected files in {out}: {stale} (use --clean)", file=sys.stderr)
         return 1
@@ -140,8 +152,8 @@ def main(argv=None):
              "| 文件 | OpenReview 评论标题 | 字符数 |", "|---|---|---:|"]
     lines += [f"| {a} | {b} | {c} |" for a, b, c in table]
     (out / "README.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
-    sums = [f"{sha256(p)}  {p.relative_to(out)}" for p in sorted(out.rglob("*")) if p.is_file() and p.name != "SHA256SUMS"]
-    (out / "SHA256SUMS").write_text("\n".join(sums) + "\n", encoding="utf-8")
+    sums = [f"{sha256(p)}  {p.relative_to(out)}" for p in sorted(out.rglob("*")) if p.is_file()]
+    checksum_path(out).write_text("\n".join(sums) + "\n", encoding="utf-8")
     print(f"deliverables in {out}: {len(table)} texts, {len(files)} files, {bad} problem(s)")
     return 1 if bad else 0
 

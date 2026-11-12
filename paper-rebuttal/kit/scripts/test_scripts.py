@@ -291,7 +291,8 @@ class TestDeliverables(KitCopy):
         names = sorted(p.name for p in (self.out / "openreview").iterdir())
         self.assertIn("02_R1_1of2.md", names)
         self.assertIn("05_followup_after_upload.md", names)
-        self.assertTrue((self.out / "SHA256SUMS").read_text(encoding="utf-8").strip())
+        self.assertFalse((self.out / "SHA256SUMS").exists())
+        self.assertTrue(bd.checksum_path(self.out).read_text(encoding="utf-8").strip())
         self.assertIn("Response to Reviewer R1 (1 of 2)", (self.out / "README.md").read_text(encoding="utf-8"))
         self.assertEqual((self.out / "openreview" / "01_general.md").read_bytes(),
                          (self.project / "openreview" / "general.md").read_bytes())
