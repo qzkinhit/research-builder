@@ -3,9 +3,10 @@
 
 Abstracts often carry number macros (\\nDatasets{}, \\gainBest{}) whose values
 change at backfill, so counting the source undercounts or overcounts. The script
-expands every zero- and one-argument \\newcommand defined in the same file,
-drops the remaining commands and math markers, and counts whitespace-separated
-tokens. Check the count against the venue limit after every backfill and every
+expands every zero- and one-argument macro defined in the same file with
+\\newcommand, \\renewcommand, \\providecommand or \\DeclareRobustCommand (starred or
+not) or with a parameterless \\def, drops the remaining commands and math
+markers, and counts whitespace-separated tokens. Check the count against the venue limit after every backfill and every
 edit to the abstract, an edit that shortens one sentence is often made to meet
 the limit, and undoing it silently breaks the limit again.
 
@@ -14,7 +15,9 @@ the limit, and undoing it silently breaks the limit again.
 Submission systems take the abstract as plain text, and the text pasted there
 drifts from the PDF when the abstract is edited late. --plain prints the expanded
 abstract as plain text for pasting, and --compare checks it word by word against
-the text that is already in the system.
+the text that is already in the system. LaTeX quotes come out as straight
+quotes, and curly quotes that the system puts in place of straight ones do not
+count as differences. Other substitutions, such as an en dash for a hyphen, do.
 
     python tools/abstract_words.py main.tex --plain > abstract.txt
     python tools/abstract_words.py main.tex --compare submitted_abstract.txt
@@ -25,14 +28,22 @@ import re
 import sys
 
 
+DEF = re.compile(r'\\((?:re)?newcommand|providecommand|DeclareRobustCommand)\*?\{?\\([A-Za-z]+)\}?(\[(\d)\])?\{'
+                 r'|\\def\\([A-Za-z]+)\{')
+QUOTES = str.maketrans({'\u2018': "'", '\u2019': "'", '\u201c': '"', '\u201d': '"'})
+
+
 def macros(src):
     defs = {}
-    for m in re.finditer(r'\\(?:re)?newcommand\{?\\([A-Za-z]+)\}?(\[(\d)\])?\{', src):
+    for m in DEF.finditer(src):
         i, depth = m.end(), 1
         while i < len(src) and depth:
             depth += {'{': 1, '}': -1}.get(src[i], 0)
             i += 1
-        defs[m.group(1)] = (int(m.group(3) or 0), src[m.end():i - 1])
+        name = m.group(2) or m.group(5)
+        if m.group(1) == 'providecommand' and name in defs:
+            continue  # \providecommand leaves an existing definition alone
+        defs[name] = (int(m.group(4) or 0), src[m.end():i - 1])
     return defs
 
 
@@ -55,6 +66,7 @@ MATH_WORDS = {'ln': 'ln', 'log': 'log', 'exp': 'exp', 'min': 'min', 'max': 'max'
 
 def plain(text):
     """The abstract as a submission system shows it: commands dropped, math kept as words."""
+    text = text.replace('``', '"').replace("''", '"').replace('`', "'")       # LaTeX quotes as the PDF shows them
     text = re.sub(r'\\[A-Za-z]+\s*=\s*-?[\d.]+(pt|em)?', ' ', text)          # \looseness=-1 and similar
     text = re.sub(r'\\[td]?frac\{([^{}]*)\}\{([^{}]*)\}', r'(\1)/(\2)', text)
     text = re.sub(r'\\([A-Za-z]+)', lambda m: ' ' + MATH_WORDS[m.group(1)] + ' ' if m.group(1) in MATH_WORDS
@@ -72,7 +84,7 @@ def main():
     ap.add_argument('--plain', action='store_true', help='print the abstract as plain text for a submission system')
     ap.add_argument('--compare', default='', help='plain-text file to compare the abstract against, word by word')
     a = ap.parse_args()
-    src = open(a.tex, encoding='utf-8').read()
+    src = re.sub(r'(?<!\\)%.*', '', open(a.tex, encoding='utf-8').read())  # a commented-out definition does not count
     m = re.search(r'\\begin\{abstract\}(.*?)\\end\{abstract\}', src, re.S)
     if not m:
         sys.exit('no abstract environment found')
@@ -84,7 +96,8 @@ def main():
         if a.plain:
             print(flat)
         if a.compare:
-            old = ' '.join(open(a.compare, encoding='utf-8').read().split())
+            old = ' '.join(open(a.compare, encoding='utf-8').read().translate(QUOTES).split())
+            flat = flat.translate(QUOTES)
             if old == flat:
                 print(f'identical to {a.compare} ({len(flat.split())} words)')
             else:

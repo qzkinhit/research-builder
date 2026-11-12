@@ -9,6 +9,7 @@ STG="$(mktemp -d)/research-builder"; mkdir -p "$STG"
 
 # 1) copy, leaving out git data, build outputs, the separate PPT skill and your own materials
 rsync -a --exclude '.git' --exclude 'dist' --exclude '__pycache__' --exclude '*.pyc' --exclude '.DS_Store' \
+  --exclude '*.baiduyun.uploading.cfg' \
   --exclude 'paper-figure-pptx' --exclude 'figure-style/examples/out' \
   --exclude 'researched_papers/*' --include 'materials/README.md' --include 'materials/**/README.md' --include 'materials/*/' \
   --exclude 'materials/**' \
