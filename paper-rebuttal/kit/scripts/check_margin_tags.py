@@ -9,9 +9,11 @@ usage
 PDF checks (need PyMuPDF, pip install pymupdf)
   colour     every tag has the colour of its reviewer in reviewers.tex
   place      every tag lies right of the text block and inside the page
+             (with --placement paragraph only inside the page, since the tags
+             stand at the end of the changed paragraph)
   overlap    no two tags overlap, and no tag overlaps body text
   near       every tag lies within --max-gap points of red text (a tag that
-             drifted away from its change)
+             drifted away from its change), margin placement only
   census     body text uses only black, the change colour, the link colour and
              the colours passed with --allow
 
@@ -72,6 +74,9 @@ def find_tags(spans, prefix):
     for ids in by_line.values():
         joined, owners = "", []
         for k in ids:
+            if joined and not joined[-1].isspace() and not spans[k][0][:1].isspace():
+                joined += " "
+                owners.append(k)
             joined += spans[k][0]
             owners += [k] * len(spans[k][0])
         for m in pat.finditer(joined):
@@ -136,7 +141,7 @@ def check_pdf(args, reviewers):
             elif colours != [want]:
                 got = ", ".join(f"{c:06X}" for c in colours)
                 problems.append(f"{where}: colour {got}, expected {want:06X}")
-            if text_right is not None and box[0] <= text_right:
+            if args.placement == "margin" and text_right is not None and box[0] <= text_right:
                 problems.append(f"{where}: left edge {box[0]:.1f} is not right of the text block ({text_right:.1f})")
             if box[2] > page.rect.width - args.page_gap:
                 problems.append(f"{where}: right edge {box[2]:.1f} leaves less than {args.page_gap} pt to the page edge")
@@ -145,7 +150,7 @@ def check_pdf(args, reviewers):
                            for r in red)
             else:
                 dist = float("inf")
-            if dist > args.max_gap:
+            if args.placement == "margin" and dist > args.max_gap:
                 warnings.append(f"{where}: nearest red text is {dist:.1f} pt away")
             for other in body:
                 if intersects(box, other[2]):
@@ -330,6 +335,8 @@ def main(argv=None):
     ap.add_argument("--original")
     ap.add_argument("--revised")
     ap.add_argument("--tag-prefix", default="")
+    ap.add_argument("--placement", choices=["margin", "paragraph"], default="margin",
+                    help="where revmark.sty prints the tags, as set by its placement option")
     ap.add_argument("--change-color", default="FF0000")
     ap.add_argument("--link-color", default=None)
     ap.add_argument("--allow", nargs="*", default=[], help="further allowed body text colours, HTML values")

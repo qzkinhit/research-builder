@@ -133,3 +133,20 @@ Thanks again for your <adjective> review. The discussion ends on <date>. Did our
 | 指代两个版本 | `Table 1 of the submission`，`Table 1 of the revision` |
 | 引用公共回复的表 | `Table G1 of our general comment` |
 | 消融或扩展实验的题注 | `Rerun at <the protocol of this figure>, applied identically to all variants and the complete system, with <number> runs per cell.` |
+
+## 10. 发出之后修改时的直答句式
+
+用法和适用条件在 `playbook.md` 第 19 节。每个句式在一条回复里至多用一次，避免回答读起来是同一个模子。
+
+| 用途 | 句式 |
+|---|---|
+| 概念性问题，先给思路再转入新工作 | `Our thinking is that <design reason>. Based on your point, we <new work>.` |
+| 资源的角色 | `In our setting <the resource> simulates <what practitioners have>. <System> uses it to <uses>. It is not used as <role>, and <outputs> come from <source>.` |
+| 澄清后接对方要的对照 | `Even so, what <the resource> achieves as <role> is a fair question. We ran <control> at <range> (<Table>).` |
+| 展示例子的选择 | `We display this <example> because it illustrates our motivation and problem definition. It reaches <value> with <small cost> in that run. It is also reachable by search, since <signal without test data> selects it. The method of Section <k> is designed to find such <items>.` |
+| 例子原本的用意 | `The example was meant to show <phenomenon>, and your question led us to measure this directly.` |
+| 范围转化为修订 | `Your comment shows that <scope> should be stated with <formulation> and that <main result> should also be given under <condition>. The revision does both.` |
+| 理解有偏差 | `We understand the concern about <X>, but would like to clarify a possible misunderstanding.` 随后写查了什么、结果是什么 |
+| 不需要额外预算时 | `The gain holds without the additional <budget>.` 随后给同预算下的数字 |
+
+> 例子。"We display this labeling plan because it illustrates our motivation and problem definition. It reaches 0.91 recall with 120 labeled pairs in that run, against 0.84 for the best uniform plan. It is also reachable by search, since coverage on the seed pairs alone selects it. The method of Section 3 is designed to find such plans."

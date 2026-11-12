@@ -165,7 +165,15 @@ OpenReview 先跑 Markdown 再跑 TeX，官方文档也写明 Markdown 会吃掉
 | `\revcap{文字}{R1-W1}` | 红色文字，首行旁写批注，用 TikZ overlay，用于图题、表题和表格单元，需要编译两遍 |
 | `\revnote{R1-W1}`、`\revfloatnote{R1-W1}` | 只写批注，用于已经是红色的内容 |
 
-`\RevSetup` 的选项有 `note width`、`note sep`、`note push`、`note font`、`tag prefix`、`change color`、`link color`、`float xshift`、`float yshift`、`final`。默认批注字号 `\small`，出界或重叠时退到 `\footnotesize`。`final=true` 去掉全部颜色与批注，文字保留。
+`\RevSetup` 的选项有 `placement`、`note width`、`note sep`、`note push`、`note font`、`tag prefix`、`change color`、`link color`、`float xshift`、`float yshift`、`final`。默认批注字号 `\small`，出界或重叠时退到 `\footnotesize`。`final=true` 去掉全部颜色与批注，文字保留。
+
+会议指南没有明文允许在页边写批注时，改用段末标注。
+
+```latex
+\RevSetup{link color=2F3FAF, placement=paragraph, tag prefix=\#Review}
+```
+
+这时 `\rev` 的编号攒到所在段落末尾，去重后写成一个按审稿人着色的加粗下划线括号，例如 (#Review R1-W1, #Review R1-Q1)，`\revcap` 与 `\revfloatnote` 的编号紧跟文字。页边参数不改。核对时给 `check_margin_tags.py` 加 `--placement paragraph --tag-prefix '#Review'`。
 
 约定如下，便于审稿人对照。
 

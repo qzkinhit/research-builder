@@ -1,6 +1,6 @@
 ---
 name: paper-rebuttal
-description: 在研究者主导下，辅助 OpenReview 式讨论期的审稿回复与修订稿，分对齐、实验、拟稿、修订稿、核对润色、打包六阶段，每阶段结束等研究者确认，发帖与上传由作者本人完成。提供手册、英文句式、中英对照回复工程、OpenReview Markdown 导出和全精度数字核对脚本，修订稿改动标红并按审稿人分色写页边编号。Use when the user says 「写 rebuttal」「按 paper-rebuttal 回复审稿人」「讨论期回复」「OpenReview 评论」「导出 OpenReview 楼层」「修订稿标红」「页边批注」「核对回复里的数字」「催审稿人回复」「author response」「reply to reviewers」「rebuttal」「respond to reviews」「mark the revised PDF」「OpenReview comments」.
+description: 在研究者主导下，辅助 OpenReview 式讨论期的审稿回复与修订稿，分对齐、实验、拟稿、修订稿、核对润色、打包六阶段，每阶段结束等研究者确认，发帖与上传由作者本人完成。提供手册、英文句式、中英对照回复工程、OpenReview Markdown 导出和全精度数字核对脚本，修订稿改动标红并按审稿人分色写页边或段末编号。Use when the user says 「写 rebuttal」「按 paper-rebuttal 回复审稿人」「讨论期回复」「OpenReview 评论」「导出 OpenReview 楼层」「修订稿标红」「页边批注」「核对回复里的数字」「催审稿人回复」「author response」「reply to reviewers」「rebuttal」「respond to reviews」「mark the revised PDF」「OpenReview comments」.
 ---
 
 # paper-rebuttal
@@ -14,11 +14,11 @@ description: 在研究者主导下，辅助 OpenReview 式讨论期的审稿回�
 | 文件 | 内容 | 何时读 |
 |---|---|---|
 | `SKILL.md` | 路由、输入、阶段与工具的对应 | 每次启动 |
-| `playbook.md` | 十八节手册（第 0 到 17 节），从策略、读意见、实验排期到发帖和打包 | 每个阶段开始前读对应小节 |
+| `playbook.md` | 二十节手册（第 0 到 19 节），从策略、读意见、实验排期到发帖和打包，第 18 节是定稿轮的行文与交付，第 19 节是回复发出之后的修改轮 | 每个阶段开始前读对应小节 |
 | `phrases.md` | 回复各部分的英文句式，带槽位和虚构例子 | 拟稿时 |
 | `kit/` | 中英对照回复的 LaTeX 工程、OpenReview 导出、修订稿标记样式、检查脚本和虚构示例，用法见 `kit/README.md` | 建工程和核对时 |
 
-文字规则沿用 `research-builder` 技能，包括 `writing-deai.md`、`writing-playbook.md`（第 13 节是重跑与修订轮的数字规则和修订标记）和 `tools/polish_check.py`。安装后该技能在同级目录 `../research-builder/`，直接在仓库里使用时在上一级目录 `../`。
+文字规则沿用 `research-builder` 技能，包括 `writing-deai.md`（第 0 节是研究者定的两段写作总则，回复与修订稿的每一句都适用）、`writing-playbook.md`（第 13 节是重跑与修订轮的数字规则和修订标记）和 `tools/polish_check.py`。安装后该技能在同级目录 `../research-builder/`，直接在仓库里使用时在上一级目录 `../`。
 
 ## 先判断是哪一种回复
 
@@ -47,6 +47,7 @@ description: 在研究者主导下，辅助 OpenReview 式讨论期的审稿回�
 | 3 修订稿 | 第 11 节、`writing-playbook.md` 第 13 节 | `kit/revision/revmark.sty`，`scripts/check_margin_tags.py` |
 | 4 核对与润色 | 第 9 节、第 12、13 节 | `make -C project strict`，`scripts/check_glance_table.py`，`scripts/check_invariants.py`，`tools/polish_check.py` |
 | 5 打包 | 第 14、15 节 | `scripts/build_deliverables.py` |
+| 发出后的修改 | 第 18、19 节 | `scripts/tokdiff.py`、`scripts/sentcheck.py`、`make -C project strict`、`scripts/check_margin_tags.py` |
 
 命令在 `kit/` 下运行。第一次使用时先跑 `make test` 和 `make demo`，确认本机的 Python 与 XeLaTeX 可用，然后按 `kit/README.md` 把 `kit/project/` 复制进论文仓库。不要在技能目录里写项目内容。
 

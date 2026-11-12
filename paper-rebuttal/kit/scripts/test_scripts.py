@@ -484,5 +484,18 @@ class TestMarginTagsPdf(KitCopy):
         self.assertEqual(status, 0, text)
 
 
+class TestFindTags(unittest.TestCase):
+    def test_prefix_and_item_in_separate_spans(self):
+        # paragraph-end tags come out of the PDF as "(#Review" and "R1-W2)" without a space between the spans
+        spans = [("text.", 0, (0, 0, 10, 10), 1), ("(#Review", 1, (11, 0, 30, 10), 1),
+                 ("R1-W2,", 1, (31, 0, 40, 10), 1), ("#Review", 1, (41, 0, 60, 10), 1), ("R1-Q1)", 1, (61, 0, 70, 10), 1)]
+        items = [t[0] for t in cmt.find_tags(spans, "#Review")]
+        self.assertEqual(items, ["R1-W2", "R1-Q1"])
+
+    def test_margin_tag_in_one_span(self):
+        spans = [("R2-Q1", 2, (500, 0, 530, 10), 1)]
+        self.assertEqual([t[0] for t in cmt.find_tags(spans, "")], ["R2-Q1"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

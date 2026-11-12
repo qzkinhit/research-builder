@@ -21,7 +21,7 @@
 
 两页 PDF 的一次性回复仍用 `knowledge/rebuttal.md` 与 `templates/rebuttal/rebuttal_template.tex`，其中的版面结构、按意见类型写第一句的表、常用句式和交稿前四项这里不重复。讨论期多了三点差异。`knowledge/rebuttal.md` 第 2 节让说对了的意见以 `You are right.` 开头，讨论期回复的每一节先给结果和判断，需要承认时写一句，放在证据之后。第 1 节的「至多一张新结果表」来自两页上限，讨论期每楼都可以贴表。第 2、3 节允许交叉引用其他审稿人的条目，讨论期各审稿人的回复只引用公共回复的表（第 7 节）。
 
-写作标点、句式和用词的硬禁令按 `writing-deai.md`，英文回复同样遵守。研究者当次的指令高于本手册。
+写作标点、句式和用词的硬禁令按 `writing-deai.md`，英文回复同样遵守。`writing-deai.md` 第 0 节的两段总则（格赖斯四项准则与去矫饰文风）适用于回复和修订稿的每一句，回复里最常用到的是关系准则，第一句回答被问的问题。研究者当次的指令高于本手册。
 
 本手册写到的 `knowledge/`、`templates/`、`tools/`、`writing-playbook.md`、`writing-deai.md` 都是 `research-builder` 技能的文件，`phrases.md` 和 `kit/` 在本技能目录下。
 
@@ -179,7 +179,7 @@
 |---|---|
 | We agree that the submission lacks these controls | 第一句直接给结果，承认放在证据之后 |
 | we agree this is a major weakness | 直接写已更正的结果 |
-| the reviewer misunderstood | 写检查了什么、结果是什么 |
+| the reviewer misunderstood | 写检查了什么、结果是什么。审稿人确实理解偏了时，可以用第 19 节的 We understand the concern about X, but would like to clarify a possible misunderstanding，一份回复至多一次 |
 | this is not a weakness because | 同上 |
 | we respectfully disagree | 同上 |
 | 用 not X 句式否定审稿人的判断 | 写实测的量和它的大小 |
@@ -253,6 +253,7 @@
 - Readers 只能按组勾选，不能按单个审稿人限制。每条评论通常勾选 Area Chairs、Reviewers、Authors。
 - 平台的修订对比能看到黑色小改，所以小改动不需要上色。
 - 一些会议的指南写明审稿人和 AC 不必阅读每一次修订，对偏离原稿过多的修订可以不予考虑，新增实验应当用来验证已有结论。所以修订稿的主线要与原稿一致。
+- 讨论期内 `TL;DR`、摘要框这类投稿元数据可能已经锁定，开工时在表单上确认。锁定时，要更新的说法只能写进回复和修订稿 PDF。
 
 **渲染用脚本预检。** 用 markdown-it（CommonMark 加 GFM 表格，不带公式插件）渲染粘贴文件，查每张表每行单元格数相等、每个公式段原样保留、花括号配平、KaTeX 严格模式编译通过、公式之外没有 LaTeX 命令。工具包的 `make strict` 与 `make render` 做这些检查，易错写法的改写表在 `kit/README.md`。离线检查通过之后，发帖前仍在评论框的 Preview 里看一眼。
 
@@ -294,6 +295,8 @@ Markdown 表格很省字符，7 列 3 行约 290 字符，每多一行约 58 字
 - 证据只在附录的论断，正文至少给出关键数字。
 - 不自行增加参考文献，审稿人点名要求时才加。
 - 遵守页数上限。超页时整段移附录并留索引，不压句子。浮动体置顶，页尾无大块空白。
+
+**先定编号写在哪里。** 会议指南明文允许在页边写批注时用页边，没有明文允许时改用段末标注，免得被认为改了版面。段末标注是在改动段落末尾加一个按审稿人着色的加粗下划线括号，例如 (#Review R1-W1a)，图题和表格单元的标注紧跟改动文字。`revmark.sty` 的 `placement=paragraph` 选项输出这种格式，一段里的多个编号去重后在段末只写一次。下面几条按页边写法说明，段末写法同样只写编号、按审稿人分色，`check_margin_tags.py` 加 `--placement paragraph` 核对。用段末写法时，回复、一览表列头和修订句里的 margin note 一律改成 tag，例如 (Section 4.2, tag #Review R1-W1a)。
 
 **页边批注按审稿人分色，只写编号。** 批注写成 `R1-W1a` 这样带审稿人的编号，需要说明时用工具包的 `tag prefix` 选项自行加前缀。放在右侧页边，字号 `\small`（出界或重叠就退到 `\footnotesize`），一处最多两个编号上下叠放，紧贴所标红字的第一行。审稿人的颜色只用在批注上，从色弱友好的色板（例如 Okabe-Ito）选，要能与红色和引用色区分。公共回复与跟帖说明各颜色对应谁。
 
@@ -421,3 +424,33 @@ Markdown 表格很省字符，7 列 3 行约 290 字符，每多一行约 58 字
 - **改一处要查指向它的句子。** 修订稿删掉一句说明后，回复里“修订稿写明……”就成了错话。每次改修订稿都要搜回复里指向这一处的句子。
 - **新结果和已有句子冲突时，把句子改窄或删掉。**
 - **补充材料和开源仓库不放校验文件。** `SHA256SUMS`、release manifest、打包脚本、记录哈希的 json 都不进交付物，审稿人不会核对哈希，放了反而显得不自然，也可能校验失败。自查在本地做。
+
+## 19. 已发出之后的修改轮
+
+讨论期里回复和修订稿可以反复修改。研究者在发出之后要求「更直接地回答」「更自然」时，按下面的做法改。
+
+**已发出的版本是底稿，只移植点名的改动。** 整篇重写容易丢掉已经核对过的强表述，打乱结果的先后，还会顺手加进条件限定词，读起来结论变弱。先把线上版本整份备份，研究者列出不动的部分（例如强结果先行的顺序、某段的几组证据）和硬约束（字符上限、不加限定词、不削弱结论），再逐处做精确替换，双语源、粘贴文件和 PDF 一起更新。改完把每处「旧句」与「新句」列给研究者。
+
+**概念性的问题先给设计思路，再接补做的工作。** 审稿人质疑方法设计或实验设置时，第一句写我们的思路（需要致谢时放在它前面），第二句转到按对方意见补做的工作，例如 "Our thinking is that ... Based on your point, we ..."。思路句讲设计的理由，不替提交稿辩护，转入句写新做了什么。问数字的条目直接给数字，不加这两句。
+
+> 例子。R2 质疑 PairSift 为什么同时用簇覆盖和相似度两个信号。回复写 "Our thinking is that similarity finds likely duplicates and coverage spreads labels across clusters, so the two signals answer different parts of the budget question. Based on your point, we ran each signal alone under the same budget." 随后给两组结果。
+
+**澄清一个资源在方法里的角色。** 审稿人把某个资源（例如一小份人工核实过的记录、专家规则、验证集）当成训练数据或测试信息时，按四件事写清楚，它在实际场景里对应什么，方法用它做什么，它不做什么，方法的输出来自哪里。不用自己领域的类比，审稿人多半不做那个领域。澄清之后用一句转折接上对方要的对照，例如 "Even so, what the same records achieve as training data is a fair question. We ran ..."，让审稿人看到这一问被认真对待。同一澄清在公共回复里放一句，其他审稿人回复里提到这个资源的地方逐处检查说法一致。
+
+> 例子。R1 认为 PairSift 的 200 对种子标注是额外的训练数据。回复写 "The seed pairs simulate the small set of verified matches a data steward already has. PairSift uses them to estimate cluster sizes and to stop labeling early. They are not added to the matcher's training data, and every reported label comes from the labeling budget itself. Even so, ..." 随后给只用这 200 对训练匹配器的结果。
+
+**交代展示例子是怎么选的。** 审稿人问为什么从大量候选里展示这一个例子时，回答三点。它说明了问题定义和动机，例如少量标注就达到高召回。它能被方法自己的准则选出，不用测试信息。方法一节就是为了找到这类点而设计的。例子的数字写成该次运行的值，标明 in that run。
+
+**同一楼里出现高于主结果的变体时，主动用一两句解释。** 审稿人会注意到这个差别。原因落在数据上（例如差距最大的那几张表改进空间最大），再把它接回本文方法的结论，例如本文方法与该变体组合后更高。不留着等追问。
+
+**约束收紧后结果基本不变，这类证据写进修订稿。** 约束收紧后只有一张表的结果变化、变化很小，这是强结果，修订稿里写出来，不只放在回复里。
+
+> 例子。把每轮标注上限压到原来的一半后，八张表里只有 Atlas 换了被采纳的方案，F1 变化 $-0.3$ 分。修订稿附录写这一句，回复引用它。
+
+**意见指出的范围用一句转化成修订。** 审稿人指出结论适用范围没交代时，写 "Your comment shows that <the scope> should be stated with <the formulation> and that <the main result> should also be given under <one condition>. The revision does both." 例子原本是用来说明某个现象时，写 "The example was meant to show <the phenomenon>, and your question led us to measure this directly."。审稿人确实理解偏了才用 "We understand the concern about <X>, but would like to clarify a possible misunderstanding."，一份回复至多一次，后面紧跟查了什么、结果是什么。
+
+**回复里的每个修订位置逐条对到 PDF。** 把回复里指向修订稿的位置（节、表、图、附录段落和编号）列成清单，逐条确认 PDF 里那一处有红字并带该审稿人的编号。指针写到具体的小节或表，不写整章。回复里出现的计数和数字在修订稿里要找得到，找不到就删去或补进修订稿。这类机械核对交给执行子代理，措辞和取舍由研究者定，已经核对过的数字不重复核对。
+
+**上线后从平台下载核验。** 上传后从平台下载 PDF 和补充材料，与本地最终版比对 md5 或 sha256。页面上逐条看每楼的修改时间与内容，确认都是最终版。
+
+**评估提分机会时按问题的类型看。** 能用新实验直接回答的问题（新的错误类型、同预算比较、更大的数据）回答之后提分的机会较大。意见多、涉及设定的审稿人回答完整之后也可能只提一分。审稿人不回应时，AC 会看回复是否逐条解决了问题，所以每个问题都要有修订稿位置可以对照。这类判断只是经验估计，给研究者时写明没有统计依据。
